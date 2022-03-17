@@ -6,6 +6,9 @@
 .RData
 .RDataTmp
 
+# Shiny/Roxygen files
+.Rbuildignore
+
 # User-specific files
 .Ruserdata
 

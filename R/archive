@@ -1,0 +1,69 @@
+    navbarMenu(
+      "Plots",
+      tabPanel(
+        "Peacekeeping Activities",
+        shiny::h3("Peacekeeping Activities"),
+        sidebarLayout(
+          sidebarPanel(
+            tabsetPanel(
+              "type-act",
+              type = "tabs",
+              tabPanel(
+                "Aggregated",
+                "Here come modular inputs to select and group missions",
+                sliderInput(
+                  "act_years",
+                  "Timerange",
+                  min = 1989,
+                  max = 2018,
+                  value = c(1989, 2018)
+                ),
+                textInput("example", "Group 1"),
+                textInput("example2", "Group 2")
+              ),
+              tabPanel(
+                "Mission",
+                "Mission inputs where you can select a specific mission and",
+                textInput("examplee", "Group 1"),
+                textInput("exampleee", "Group 2"),
+                textInput("exampleeee", "Group 3")
+              )
+            )
+          ),
+          mainPanel(plotOutput("activity"))
+        )
+      ),
+      tabPanel(
+        "Engagement Categories",
+        shiny::h3("Engagment Types"),
+        sidebarLayout(
+          sidebarPanel(
+            tabsetPanel(
+              "type-ec",
+              type = "tabs",
+              tabPanel(
+                "Aggregated",
+                "Here come modular inputs to select and group missions",
+                sliderInput(
+                  "act_years",
+                  "Timerange",
+                  min = 1989,
+                  max = 2018,
+                  value = c(1989, 2018)
+                ),
+                textInput("example", "Group 1"),
+                textInput("example2", "Group 2")
+              ),
+              tabPanel(
+                "Mission",
+                "Mission inputs where you can select a specific mission and",
+                textInput("examplee", "Group 1"),
+                textInput("exampleee", "Group 2"),
+                textInput("exampleeee", "Group 3")
+              )
+            )
+          ),
+          mainPanel(plotOutput("ec"))
+        )
+      )
+    ),

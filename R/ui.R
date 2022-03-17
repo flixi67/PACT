@@ -24,35 +24,57 @@ ui <- function(req) {
       tabPanel(
         "Peacekeeping Activities",
         shiny::h3("Peacekeeping Activities"),
-        fluidRow(
-          column(
-            width = 4,
+        tabsetPanel(
+          id = "type-act",
+          type = "pills",
+          tabPanel(
+            "Aggregated",
             "Here come modular inputs to select and group missions",
+            sliderInput(
+              "act_years",
+              "Timerange",
+              min = as.Date("1989", format = "%Y"),
+              max = as.Date("2018", format = "%Y"),
+              value = c(as.Date("1989", format = "%Y"), as.Date("2018", format = "%Y")),
+              timeFormat = "%Y"
+            ),
             textInput("example", "Group 1"),
             textInput("example2", "Group 2")
           ),
-          column(width = 6,
-                 offset = 2,
-                 plotOutput("plot"))
+          tabPanel(
+            "Mission",
+            "Mission inputs where you can select a specific mission and",
+            textInput("examplee", "Group 1"),
+            textInput("exampleee", "Group 2"),
+            textInput("exampleeee", "Group 3")
+          )
         )
       ),
       tabPanel(
         "Engagement Categories",
         shiny::h3("Engagment Types"),
-        fluidRow(
-          column(
-            width = 4,
+        tabsetPanel(
+          id = "type-ec",
+          type = "tabs",
+          tabPanel(
+            "Aggregated",
             "Here come modular inputs to select and group missions",
-            checkboxGroupInput(
-              "example",
-              "EC",
-              choices = list(
-                "Assist" = "Assist",
-                "Implement" = "Implement",
-                "Monitor" = "Monitor"
-              )
+            sliderInput(
+              "act_years",
+              "Timerange",
+              min = 1989,
+              max = 2018,
+              value = c(1989, 2018)
             ),
+            textInput("example", "Group 1"),
             textInput("example2", "Group 2")
+          ),
+          tabPanel(
+            "Mission",
+            "Mission inputs where you can select a specific mission and",
+            textInput("examplee", "Group 1"),
+            textInput("exampleee", "Group 2"),
+            textInput("exampleeee", "Group 3")
           )
         )
       )
@@ -68,21 +90,18 @@ ui <- function(req) {
         shiny::h3("SG report coverage per mission (maybe: links to UN Docs)")
       ),
       tabPanel(
-        "Activity by map",
+        "Activity map",
         conditionalPanel(condition = "window.innerWidth < 1000 || window.innerHeight < 720",
                          div(
                            class = "outer",
-                           tags$style(type = "text/css", "#basemap {height: calc(100vh - 110px) !important;}"),
-                           leafletOutput("basemap")
-                         )
-                         )
+                           tags$style(type = "text/css", "#map {height: calc(100vh - 110px) !important;}"),
+                           leafletOutput("map")
+                         ))
       )
     ),
     tabPanel(
       "About",
-      shiny::h3(
-        "Info about the data, collection, funding, later link to data download, documentation"
-      )
+      shiny::h3("Info about the data, collection, funding, documentation")
     )
   )
 }

@@ -11,14 +11,31 @@
 
 require(dplyr)
 require(leaflet)
+require(readr)
 
-baseMap <- leaflet(options = leafletOptions(minZoom = 2)) %>%
+### read in data
+# data <- read_csv("data/")
+# reportdata <- read_csv("data/")
+
+### create datasets for application
+
+
+### create choicelists, selectors, ...
+
+
+### create map
+activityMap <- leaflet(options = leafletOptions(minZoom = 2)) %>%
   addTiles()
 
-server <- function(input, output, session){
-	output$plot <- renderPlot(plot(mtcars$mpg, mtcars$hp))
 
-	output$ basemap <- renderLeaflet({
-	  baseMap
+
+
+server <- function(input, output, session){
+	output$activity <- renderPlot(plot(mtcars$mpg, mtcars$hp))
+
+	output$ec <- renderPlot(plot(mtcars$cyl, mtcars$gear))
+
+	output$map <- renderLeaflet({
+	  activityMap
 	})
 }
