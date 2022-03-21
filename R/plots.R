@@ -74,6 +74,10 @@ active_missions_yearmon <- data %>%
 
 ### Plots
 
+base <- ggplot() +
+  theme_bw()
+  # thematic::thematic_shiny()
+
 # Activities
 
 data_p8 <- data %>%
@@ -92,7 +96,7 @@ data_p8 <- data %>%
   arrange(Activity) %>%
   mutate(perc = number/c(active_missions_index*length(cross_cut),
                          active_missions_index*length(peace_rel),
-                         active_missions_index*length(sec_rel))) # Anteil der Tasks an allen Tasks 10(sec-related)/39(alle tasks)
+                         active_missions_index*length(sec_rel)))
 
 plot_p8 <- base +
   geom_smooth(aes(x = month_index, y = perc, group = Activity, colour = Activity, linetype = Activity), color = "black", data = data_p8, se = FALSE) +

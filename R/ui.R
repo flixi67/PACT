@@ -19,11 +19,11 @@ ui <- function(req) {
     header = list(assets()),
     title = "Peacekeeping ACTivities",
     id = "main-menu",
-    # tabPanelBody(
-    #   "Welcome Page",
-    #   h5("hello I appear upon loading but not in the navbar"),
-    #   h6("also i lowkey fix things")
-    # ),
+    tabPanelBody(
+      "Welcome Page",
+      h5("hello I appear upon loading but not in the navbar"),
+      h6("also i lowkey fix things")
+    ),
     navbarMenu(
       "Plots",
       tabPanel(
@@ -35,7 +35,6 @@ ui <- function(req) {
               type = "pills",
               tabPanel(
                 "Aggregated",
-                "Here come modular inputs to select and group missions",
                 sliderInput(
                   "act_years",
                   "Timerange",
@@ -44,13 +43,66 @@ ui <- function(req) {
                   value = c(as.Date("1989", format = "%Y"), as.Date("2018", format = "%Y")),
                   timeFormat = "%Y"
                 ),
-                textInput("example", "Group 1"),
-                textInput("example2", "Group 2")
+                "Missions",
+                br(),
+                div(
+                  style = "text-align:center",
+                  tags$div(id = 'act_placeholder_mission'),
+                  actionButton(
+                    "act_insert_mission",
+                    label = NULL,
+                    icon = icon("plus-circle"),
+                    class = "btn-primary",
+                    style = "margin: 5%"
+                  ),
+                  actionButton(
+                    "act_remove_mission",
+                    label = NULL,
+                    icon = icon("minus-circle"),
+                    class = "btn-default"
+                  )
+                ),
+                "Activities",
+                br(),
+                div(
+                  style = "text-align:center",
+                  tags$div(id = 'act_placeholder_act'),
+                  actionButton(
+                    "act_insert_act",
+                    label = NULL,
+                    icon = icon("plus-circle"),
+                    class = "btn-primary",
+                    style = "margin: 5%"
+                  ),
+                  actionButton(
+                    "act_remove_act",
+                    label = NULL,
+                    icon = icon("minus-circle"),
+                    class = "btn-default"
+                  )
+                )
               ),
               tabPanel(
                 "Mission",
                 "Mission inputs where you can select a specific mission and",
-                textInput("mission", "Select missions")
+                radioButtons(
+                  "mission_select",
+                  label = NULL,
+                  choices = list("All" = "all",
+                                 "Selected" = "select"),
+                  inline = TRUE
+                ),
+                conditionalPanel(
+                  "input.mission_select == 'select'",
+                  selectizeInput(
+                    "mission_select2",
+                    label = NULL,
+                    choices = list("Test" = "ts",
+                                   "Doesit" = "ds",
+                                   "Work?" = "work"),
+                    multiple = TRUE
+                  )
+                )
               )
             )
           ),
