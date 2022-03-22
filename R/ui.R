@@ -22,7 +22,8 @@ ui <- function(req) {
     tabPanelBody(
       "Welcome Page",
       h5("hello I appear upon loading but not in the navbar"),
-      h6("also i lowkey fix things")
+      h6("also i lowkey fix things"),
+      actionButton("lol", "Press me daddy!", icon = icon("hand-paper"))
     ),
     navbarMenu(
       "Plots",
@@ -30,21 +31,25 @@ ui <- function(req) {
         "Peacekeeping Activities",
         sidebarLayout(
           sidebarPanel(
+            tags$style(HTML(".tabbable > .nav > li > a {background-color: lightgrey; width: 100%; text-align: center}")),
+            tags$style(HTML(".tabbable > .nav > li {width: 50%}")),
             tabsetPanel(
               id = "type-act",
               type = "pills",
               tabPanel(
                 "Aggregated",
+                hr(),
+                h6("Timerange"),
                 sliderInput(
                   "act_years",
-                  "Timerange",
+                  label = NULL,
                   min = as.Date("1989", format = "%Y"),
                   max = as.Date("2018", format = "%Y"),
                   value = c(as.Date("1989", format = "%Y"), as.Date("2018", format = "%Y")),
                   timeFormat = "%Y"
                 ),
-                "Missions",
-                br(),
+                hr(),
+                h6("Missions"),
                 div(
                   style = "text-align:center",
                   tags$div(id = 'act_placeholder_mission'),
@@ -53,17 +58,18 @@ ui <- function(req) {
                     label = NULL,
                     icon = icon("plus-circle"),
                     class = "btn-primary",
-                    style = "margin: 5%"
+                    style = "margin: 1%"
                   ),
                   actionButton(
                     "act_remove_mission",
                     label = NULL,
                     icon = icon("minus-circle"),
-                    class = "btn-default"
+                    class = "btn-default",
+                    style = "margin: 1%"
                   )
                 ),
-                "Activities",
-                br(),
+                hr(),
+                h6("Activities"),
                 div(
                   style = "text-align:center",
                   tags$div(id = 'act_placeholder_act'),
@@ -72,35 +78,72 @@ ui <- function(req) {
                     label = NULL,
                     icon = icon("plus-circle"),
                     class = "btn-primary",
-                    style = "margin: 5%"
+                    style = "margin: 1%"
                   ),
                   actionButton(
                     "act_remove_act",
                     label = NULL,
                     icon = icon("minus-circle"),
-                    class = "btn-default"
+                    class = "btn-default",
+                    style = "margin: 1%"
+                  )
+                ),
+                hr(),
+                div(
+                  style = "text-align:center",
+                  checkboxInput("act_smooth1", label = "Smooth line"),
+                  checkboxInput("act_color1", label = "Use colors"),
+                  actionButton(
+                    "act_draw_plot1",
+                    label = "draw plot",
+                    icon = icon("paint-brush"),
+                    class = "btn-warning",
+                    style = "margin: 1%"
                   )
                 )
               ),
               tabPanel(
                 "Mission",
-                "Mission inputs where you can select a specific mission and",
+                hr(),
+                h6("Missions"),
                 radioButtons(
-                  "mission_select",
+                  "act_select_mission",
                   label = NULL,
                   choices = list("All" = "all",
                                  "Selected" = "select"),
                   inline = TRUE
                 ),
                 conditionalPanel(
-                  "input.mission_select == 'select'",
+                  "input.act_select_mission == 'select'",
                   selectizeInput(
-                    "mission_select2",
+                    "act_select_missions",
                     label = NULL,
-                    choices = list("Test" = "ts",
-                                   "Doesit" = "ds",
-                                   "Work?" = "work"),
+                    choices = mission_list,
                     multiple = TRUE
+                  )
+                ),
+                hr(),
+                h6("Activities"),
+                selectizeInput(
+                  "act_select_act",
+                  label = NULL,
+                  choices = list("Activities" = "Activities",
+                                 "Petting cats" = "Petting cats",
+                                 "Feeding stray dogs" = "Feeding stray dogs"),
+                  selected = "Activities",
+                  multiple = TRUE
+                ),
+                hr(),
+                div(
+                  style = "text-align:center",
+                  checkboxInput("act_smooth2", label = "Smooth line"),
+                  checkboxInput("act_color2", label = "Use colors"),
+                  actionButton(
+                    "act_draw_plot2",
+                    label = "draw plot",
+                    icon = icon("paint-brush"),
+                    class = "btn-warning",
+                    style = "margin: 1%"
                   )
                 )
               )
@@ -117,25 +160,117 @@ ui <- function(req) {
           sidebarPanel(
             tabsetPanel(
               id = "type-ec",
-              type = "tabs",
+              type = "pills",
               tabPanel(
                 "Aggregated",
-                "Here come modular inputs to select and group missions",
+                hr(),
+                h6("Timerange"),
                 sliderInput(
                   "ec_years",
-                  "Timerange",
+                  label = NULL,
                   min = as.Date("1989", format = "%Y"),
                   max = as.Date("2018", format = "%Y"),
                   value = c(as.Date("1989", format = "%Y"), as.Date("2018", format = "%Y")),
                   timeFormat = "%Y"
                 ),
-                textInput("examplee23", "Group 1"),
-                textInput("examplee2", "Group 2")
+                hr(),
+                h6("Missions"),
+                div(
+                  style = "text-align:center",
+                  tags$div(id = 'ec_placeholder_mission'),
+                  actionButton(
+                    "ec_insert_mission",
+                    label = NULL,
+                    icon = icon("plus-circle"),
+                    class = "btn-primary",
+                    style = "margin: 1%"
+                  ),
+                  actionButton(
+                    "ec_remove_mission",
+                    label = NULL,
+                    icon = icon("minus-circle"),
+                    class = "btn-default",
+                    style = "margin: 1%"
+                  )
+                ),
+                hr(),
+                h6("Activities"),
+                div(
+                  style = "text-align:center",
+                  tags$div(id = 'ec_placeholder_act'),
+                  actionButton(
+                    "ec_insert_act",
+                    label = NULL,
+                    icon = icon("plus-circle"),
+                    class = "btn-primary",
+                    style = "margin: 1%"
+                  ),
+                  actionButton(
+                    "ec_remove_act",
+                    label = NULL,
+                    icon = icon("minus-circle"),
+                    class = "btn-default",
+                    style = "margin: 1%"
+                  )
+                ),
+                hr(),
+                div(
+                  style = "text-align:center",
+                  checkboxInput("ec_smooth1", label = "Smooth line"),
+                  checkboxInput("ec_color1", label = "Use colors"),
+                  actionButton(
+                    "ec_draw_plot1",
+                    label = "draw plot",
+                    icon = icon("paint-brush"),
+                    class = "btn-warning",
+                    style = "margin: 1%"
+                  )
+                )
               ),
               tabPanel(
                 "Mission",
-                "Mission inputs where you can select a specific mission and",
-                numericInput("mission_num", "Numbers lol", 5)
+                hr(),
+                h6("Missions"),
+                radioButtons(
+                  "ec_select_mission",
+                  label = NULL,
+                  choices = list("All" = "all",
+                                 "Selected" = "select"),
+                  inline = TRUE
+                ),
+                conditionalPanel(
+                  "input.ec_select_mission == 'select'",
+                  selectizeInput(
+                    "ec_select_missions",
+                    label = NULL,
+                    choices = mission_list,
+                    multiple = TRUE
+                  )
+                ),
+                hr(),
+                h6("Activities"),
+                selectizeInput(
+                  "ec_select_act",
+                  label = NULL,
+                  choices = list("Activities" = "Activities",
+                                 "Petting cats" = "Petting cats",
+                                 "Feeding stray dogs" = "Feeding stray dogs"),
+                  selected = "Activities",
+                  multiple = TRUE
+                ),
+                hr(),
+                div(
+                  style = "text-align:center",
+                  checkboxInput("ec_smooth2", label = "Smooth line"),
+                  checkboxInput("ec_color2", label = "Use colors"),
+                  actionButton(
+                    "ec_draw_plot2",
+                    label = "draw plot",
+                    icon = icon("paint-brush"),
+                    class = "btn-warning",
+                    style = "margin: 1%"
+                  )
+                )
               )
             )
           ),
@@ -169,8 +304,7 @@ ui <- function(req) {
       "About",
       shiny::h3("Info about the data, collection, funding, documentation")
     )
-  )
-}
+  )}
 
 #' Assets
 #'
