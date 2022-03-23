@@ -12,6 +12,10 @@
 require(dplyr)
 require(leaflet)
 require(readr)
+require(rlang)
+require(zoo)
+
+Sys.setlocale("LC_TIME", "English")
 
 ### read in data
 data <- read_csv("data/PACT_mission-month_full.csv")
@@ -23,6 +27,22 @@ reportdata <- read_rds("data/transformed-paragraphs.Rds")
 ### create choicelists, selectors, ...
 mission_list <- as.list(unique(data$PKO) %>%
                           set_names(unique(data$PKO)))
+
+mission_data <- data %>%
+  group_by(PKO) %>%
+  summarise(dur = n(),
+            start = min(as.yearmon(paste(month, year), "%m %Y")),
+            end = max(as.yearmon(paste(month, year), "%m %Y")),
+            country = first(Mission_Country),
+            continent = first(Mission_Continent)) %>%
+  left_join(read_rds("data/PKO_start_end.Rds"), by = c("PKO" = "Acronym")) %>%
+  rename("name" = "Mission name")
+mission_data$name[mission_data$PKO == "UNAVEM"] <- "United Nations Angola Verification Mission"
+mission_data$name[mission_data$PKO == "UNSOM"] <- "United Nations Operation in Somalia"
+# UNSOM in PACT is officially called UNOSOM, UNSOM is a different mission that started in 2017
+# more missions were full mission name is deprecated
+# ...
+
 
 activity_list_all <- as.list(names(data) %>%
                                str_subset("_All") %>%
@@ -63,8 +83,37 @@ server <- function(input, output, session){
 	      selectizeInput(
 	        id,
 	        label = NULL,
-	        choices = mission_list,
-	        multiple = TRUE
+	        choices = "",
+	        multiple = TRUE,
+	        options = list(
+	          valueField = "PKO",
+	          labelField = "PKO",
+	          create = FALSE,
+	          placeholder = "Select missions to aggregate",
+	          render = I("{
+      option: function(item, escape) {
+        return '<div>' +
+               '<strong><img src=\"https://cdn-icons-png.flaticon.com/512/814/814587.png\" width=20 />' + escape(item.PKO) + '</strong>:' +
+               ' <em>' + escape(item.name) + '</em>' +
+               ' (' + escape(item.start) + ' to ' + escape(item.end) + ')' +
+            '<ul>' +
+        '</div>';
+      }
+    }"),
+	          load = I("function(query, callback) {
+      if (!query.length) return callback();
+      $.ajax({
+        url: 'https://api.github.com/legacy/repos/search/' + encodeURIComponent(query),
+        type: 'GET',
+        error: function() {
+          callback();
+        },
+        success: function(res) {
+          callback(res.repositories.slice(0, 10));
+        }
+      });
+    }")
+	        )
 	      ),
 	      id = id
 	    )
