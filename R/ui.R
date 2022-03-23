@@ -19,6 +19,7 @@ ui <- function(req) {
     header = list(assets()),
     title = "Peacekeeping ACTivities",
     id = "main-menu",
+    #### Landing Page ####
     tabPanelBody(
       "Welcome Page",
       h5("hello I appear upon loading but not in the navbar"),
@@ -27,15 +28,18 @@ ui <- function(req) {
     ),
     navbarMenu(
       "Plots",
+      #### Plot: Peacekeeping Activities ####
       tabPanel(
         "Peacekeeping Activities",
         sidebarLayout(
+          ##### Sidebar #####
           sidebarPanel(
             tags$style(HTML(".tabbable > .nav > li > a {background-color: lightgrey; width: 100%; text-align: center}")),
             tags$style(HTML(".tabbable > .nav > li {width: 50%}")),
             tabsetPanel(
               id = "type-act",
               type = "pills",
+              ###### Aggregated ######
               tabPanel(
                 "Aggregated",
                 hr(),
@@ -102,6 +106,7 @@ ui <- function(req) {
                   )
                 )
               ),
+              ###### Per mission ######
               tabPanel(
                 "Mission",
                 hr(),
@@ -115,11 +120,32 @@ ui <- function(req) {
                 ),
                 conditionalPanel(
                   "input.act_select_mission == 'select'",
-                  selectizeInput(
-                    "act_select_missions",
-                    label = NULL,
-                    choices = mission_list,
-                    multiple = TRUE
+                  div(
+                    style = "text-align:center",
+                    selectizeInput(
+                      "act_select_missions",
+                      label = NULL,
+                      choices = "",
+                      multiple = TRUE,
+                      options = list(
+                        valueField = "PKO",
+                        labelField = "PKO",
+                        searhField = "PKO",
+                        create = FALSE,
+                        placeholder = "Select missions to aggregate",
+                        options = toJSON(mission_data),
+                        render = I("{
+        option: function(item, escape) {
+          return '<div>' +
+                 '<strong><img src=\"https://raw.githubusercontent.com/FortAwesome/Font-Awesome/28e297f07af26f148c15e6cbbd12cea3027371d3/svgs/solid/earth-' + escape(item.continent_i) + '.svg\" width=20 />' + escape(item.PKO) + '</strong></br>' +
+                 escape(item.name) +
+                 ' <em>' + ' (' + escape(item.start) + ' - ' + escape(item.end) + ')' + '</em>' +
+              '<ul>' +
+          '</div>';
+        }
+      }")
+                      )
+                    )
                   )
                 ),
                 hr(),
@@ -149,18 +175,24 @@ ui <- function(req) {
               )
             )
           ),
+          ##### Main panel #####
           mainPanel(
-            h4("lul im big and placeholder for a plot")
+            h4("lul im big and placeholder for a plot"),
+            verbatimTextOutput("inserted_mission"),
+            verbatimTextOutput("mission_grp")
           )
         )
       ),
+      #### Plot: Engagement Categories ####
       tabPanel(
         "Engagement Categories",
         sidebarLayout(
+          ##### Sidebar #####
           sidebarPanel(
             tabsetPanel(
               id = "type-ec",
               type = "pills",
+              ###### Aggregated ######
               tabPanel(
                 "Aggregated",
                 hr(),
@@ -227,6 +259,7 @@ ui <- function(req) {
                   )
                 )
               ),
+              ###### Per mission ######
               tabPanel(
                 "Mission",
                 hr(),
@@ -240,11 +273,32 @@ ui <- function(req) {
                 ),
                 conditionalPanel(
                   "input.ec_select_mission == 'select'",
-                  selectizeInput(
-                    "ec_select_missions",
-                    label = NULL,
-                    choices = mission_list,
-                    multiple = TRUE
+                  div(
+                    style = "text-align:center",
+                    selectizeInput(
+                      "ec_select_missions",
+                      label = NULL,
+                      choices = "",
+                      multiple = TRUE,
+                      options = list(
+                        valueField = "PKO",
+                        labelField = "PKO",
+                        searhField = "PKO",
+                        create = FALSE,
+                        placeholder = "Select missions to aggregate",
+                        options = toJSON(mission_data),
+                        render = I("{
+        option: function(item, escape) {
+          return '<div>' +
+                 '<strong><img src=\"https://raw.githubusercontent.com/FortAwesome/Font-Awesome/28e297f07af26f148c15e6cbbd12cea3027371d3/svgs/solid/earth-' + escape(item.continent_i) + '.svg\" width=20 />' + escape(item.PKO) + '</strong></br>' +
+                 escape(item.name) +
+                 ' <em>' + ' (' + escape(item.start) + ' - ' + escape(item.end) + ')' + '</em>' +
+              '<ul>' +
+          '</div>';
+        }
+      }")
+                      )
+                    )
                   )
                 ),
                 hr(),
@@ -274,6 +328,7 @@ ui <- function(req) {
               )
             )
           ),
+          ##### Main panel #####
           mainPanel(
             h2("im smaller and different")
           )
@@ -282,14 +337,17 @@ ui <- function(req) {
     ),
     navbarMenu(
       "Missions",
+      #### Missions: Overview ####
       tabPanel(
         "Mission overview",
         shiny::h3("Here comes overview by continent, timeranges")
       ),
+      #### Missions: Data Coverage ####
       tabPanel(
         "Data coverage",
         shiny::h3("SG report coverage per mission (maybe: links to UN Docs)")
       ),
+      #### Missions: Activity map ####
       tabPanel(
         "Activity map",
         conditionalPanel(condition = "window.innerWidth < 1000 || window.innerHeight < 720",
@@ -300,6 +358,7 @@ ui <- function(req) {
                          ))
       )
     ),
+    #### About page/ Impressum ####
     tabPanel(
       "About",
       shiny::h3("Info about the data, collection, funding, documentation")

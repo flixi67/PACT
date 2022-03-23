@@ -14,6 +14,7 @@ require(leaflet)
 require(readr)
 require(rlang)
 require(zoo)
+require(jsonlite)
 
 Sys.setlocale("LC_TIME", "English")
 
@@ -31,10 +32,12 @@ mission_list <- as.list(unique(data$PKO) %>%
 mission_data <- data %>%
   group_by(PKO) %>%
   summarise(dur = n(),
-            start = min(as.yearmon(paste(month, year), "%m %Y")),
-            end = max(as.yearmon(paste(month, year), "%m %Y")),
+            start = as.character(min(as.yearmon(paste(month, year), "%m %Y"))),
+            end = as.character(max(as.yearmon(paste(month, year), "%m %Y"))),
             country = first(Mission_Country),
-            continent = first(Mission_Continent)) %>%
+            continent = first(Mission_Continent),
+            continent_i = case_when(continent == "South America"  ~ "americas",
+                                    TRUE ~ tolower(continent))) %>%
   left_join(read_rds("data/PKO_start_end.Rds"), by = c("PKO" = "Acronym")) %>%
   rename("name" = "Mission name")
 mission_data$name[mission_data$PKO == "UNAVEM"] <- "United Nations Angola Verification Mission"
@@ -71,7 +74,7 @@ server <- function(input, output, session){
 	})
 
 	#### Modular plot inputs ####
-	## Groups of missions (peackeeping activities)
+	##### Groups of missions (peackeeping activities) #####
 	inserted_mission <- c()
 
 	observeEvent(input$act_insert_mission, {
@@ -88,30 +91,19 @@ server <- function(input, output, session){
 	        options = list(
 	          valueField = "PKO",
 	          labelField = "PKO",
+	          searhField = "PKO",
 	          create = FALSE,
 	          placeholder = "Select missions to aggregate",
+	          options = toJSON(mission_data),
 	          render = I("{
       option: function(item, escape) {
         return '<div>' +
-               '<strong><img src=\"https://cdn-icons-png.flaticon.com/512/814/814587.png\" width=20 />' + escape(item.PKO) + '</strong>:' +
-               ' <em>' + escape(item.name) + '</em>' +
-               ' (' + escape(item.start) + ' to ' + escape(item.end) + ')' +
+               '<strong><img src=\"https://raw.githubusercontent.com/FortAwesome/Font-Awesome/28e297f07af26f148c15e6cbbd12cea3027371d3/svgs/solid/earth-' + escape(item.continent_i) + '.svg\" width=20 />' + escape(item.PKO) + '</strong></br>' +
+               escape(item.name) +
+               ' <em>' + ' (' + escape(item.start) + ' - ' + escape(item.end) + ')' + '</em>' +
             '<ul>' +
         '</div>';
       }
-    }"),
-	          load = I("function(query, callback) {
-      if (!query.length) return callback();
-      $.ajax({
-        url: 'https://api.github.com/legacy/repos/search/' + encodeURIComponent(query),
-        type: 'GET',
-        error: function() {
-          callback();
-        },
-        success: function(res) {
-          callback(res.repositories.slice(0, 10));
-        }
-      });
     }")
 	        )
 	      ),
@@ -128,7 +120,7 @@ server <- function(input, output, session){
 	  inserted_mission <<- inserted_mission[-length(inserted_mission)]
 	})
 
-	## Groups of activities (peacekeeping activities)
+	##### Groups of activities (peacekeeping activities) #####
 	inserted_act <- c()
 
 	observeEvent(input$act_insert_act, {
@@ -158,7 +150,7 @@ server <- function(input, output, session){
 	  inserted_act <<- inserted_act[-length(inserted_act)]
 	})
 
-	## Groups of missions (engagement categories)
+	##### Groups of missions (engagement categories) #####
 	inserted_mission <- c()
 
 	observeEvent(input$ec_insert_mission, {
@@ -170,8 +162,26 @@ server <- function(input, output, session){
 	      selectizeInput(
 	        id,
 	        label = NULL,
-	        choices = mission_list,
-	        multiple = TRUE
+	        choices = "",
+	        multiple = TRUE,
+	        options = list(
+	          valueField = "PKO",
+	          labelField = "PKO",
+	          searhField = "PKO",
+	          create = FALSE,
+	          placeholder = "Select missions to aggregate",
+	          options = toJSON(mission_data),
+	          render = I("{
+      option: function(item, escape) {
+        return '<div>' +
+               '<strong><img src=\"https://raw.githubusercontent.com/FortAwesome/Font-Awesome/28e297f07af26f148c15e6cbbd12cea3027371d3/svgs/solid/earth-' + escape(item.continent_i) + '.svg\" width=20 />' + escape(item.PKO) + '</strong></br>' +
+               escape(item.name) +
+               ' <em>' + ' (' + escape(item.start) + ' - ' + escape(item.end) + ')' + '</em>' +
+            '<ul>' +
+        '</div>';
+      }
+    }")
+	        )
 	      ),
 	      id = id
 	    )
@@ -186,7 +196,7 @@ server <- function(input, output, session){
 	  inserted_mission <<- inserted_mission[-length(inserted_mission)]
 	})
 
-	## Groups of activities (engagement categories)
+	##### Groups of activities (engagement categories) #####
 	inserted_act <- c()
 
 	observeEvent(input$ec_insert_act, {
@@ -215,4 +225,24 @@ server <- function(input, output, session){
 	  )
 	  inserted_act <<- inserted_act[-length(inserted_act)]
 	})
+
+	#### Plot data ####
+	##### Peaceeping Activities (Aggregated) #####
+	observeEvent(input$act_draw_plot1, {
+	  mission_grp <- isolate({
+	    out <- list()
+	    for (a in inserted_mission) {
+	      out[[a]] <- input[[a]]
+	    }
+	    out
+	  })
+	  output$inserted_mission <- renderPrint(inserted_mission)
+	  output$mission_grp <- renderPrint(mission_grp)
+	  activity_grp <- NULL
+	})
+	##### Peaceeping Activities (Per mission) #####
+
+	##### Engagement Categories (Aggregated) #####
+	##### Engagement Categories (Per mission) #####
+
 }
