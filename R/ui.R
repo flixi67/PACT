@@ -153,9 +153,7 @@ ui <- function(req) {
                 selectizeInput(
                   "act_select_act",
                   label = NULL,
-                  choices = list("Activities" = "Activities",
-                                 "Petting cats" = "Petting cats",
-                                 "Feeding stray dogs" = "Feeding stray dogs"),
+                  choices = activity_list,
                   selected = "Activities",
                   multiple = TRUE
                 ),
@@ -178,8 +176,10 @@ ui <- function(req) {
           ##### Main panel #####
           mainPanel(
             h4("lul im big and placeholder for a plot"),
-            verbatimTextOutput("inserted_mission"),
-            verbatimTextOutput("mission_grp")
+            verbatimTextOutput("mission_grp"),
+            verbatimTextOutput("activity_grp"),
+            dataTableOutput("testdata"),
+            plotOutput("testplot")
           )
         )
       ),
@@ -306,9 +306,7 @@ ui <- function(req) {
                 selectizeInput(
                   "ec_select_act",
                   label = NULL,
-                  choices = list("Activities" = "Activities",
-                                 "Petting cats" = "Petting cats",
-                                 "Feeding stray dogs" = "Feeding stray dogs"),
+                  choices = activity_list,
                   selected = "Activities",
                   multiple = TRUE
                 ),

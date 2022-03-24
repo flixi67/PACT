@@ -23,7 +23,17 @@ data <- read_csv("data/PACT_mission-month_full.csv")
 reportdata <- read_rds("data/transformed-paragraphs.Rds")
 
 ### create datasets for application
+data_all <- data %>%
+  select(PKO, month_index, month, year, contains("_All"))
 
+data_ec <- data %>%
+  select(-contains("_IA"), -contains("Abuse"), -contains("Infra"),
+         -contains("AssistPolicies"), -contains("AssistAgents"),
+         -contains("AssistOther"), -contains("AssistComm")) %>%
+  select(PKO, month_index, month, year,
+         contains("_Monitor"), contains("_MaterialSupport"),
+         contains("_Meeting"), contains("_Advocate"), contains("_Outreach"),
+         contains("_Implement"), contains("_Assist"))
 
 ### create choicelists, selectors, ...
 mission_list <- as.list(unique(data$PKO) %>%
@@ -43,22 +53,61 @@ mission_data <- data %>%
 mission_data$name[mission_data$PKO == "UNAVEM"] <- "United Nations Angola Verification Mission"
 mission_data$name[mission_data$PKO == "UNSOM"] <- "United Nations Operation in Somalia"
 # UNSOM in PACT is officially called UNOSOM, UNSOM is a different mission that started in 2017
-# more missions were full mission name is deprecated
-# ...
-
-
-activity_list_all <- as.list(names(data) %>%
-                               str_subset("_All") %>%
-                               set_names(names(data) %>%
-                                           str_subset("_All") %>%
-                                           str_remove("_All")))
+mission_data$name[mission_data$PKO == "MONUC"] <- "United Nations Organization Mission in the Democratic Republic of the Congo"
+mission_data$name[mission_data$PKO == "MONUSCO"] <- "United Nations Stabilization Mission in the Democratic Republic of the Congo"
+mission_data$name[mission_data$PKO == "MINUSCA"] <- "United Nations Multidimensional Integrated Stabilization Mission in the Central African Republic"
+mission_data$name[mission_data$PKO == "MINUSMA"] <- "United Nations Multidimensional Integrated Stabilization Mission in Mali"
 
 activity_list <- as.list(names(data) %>%
                            str_subset("_All") %>%
                            str_remove("_All") %>%
                            set_names(names(data) %>%
                                        str_subset("_All") %>%
-                                       str_remove("_All")))
+                                       str_remove("_All") %>%
+                                       str_replace("_", ":") %>%
+                                       str_replace_all("(?=[A-Z])", " ") %>%
+                                       str_trim()))
+
+blair_cat <- list("Security-related" = c("DisarmamentDemobilization",
+                                         "Reintegration",
+                                         "ControlSALW",
+                                         "Demilitarization",
+                                         "ArmsEmbargo",
+                                         "Ceasefire",
+                                         "PeaceProcess",
+                                         "CivilianProtection",
+                                         "Operations_UseOfForce",
+                                         "Operations_PatrolsInterventions"),
+                  "Peacbuilding-related" = c("PoliceReform",
+                                             "MilitaryReform",
+                                             "JusticeSectorReform",
+                                             "TransitionalJustice",
+                                             "PrisonReform",
+                                             "BorderControl",
+                                             "Demining",
+                                             "Resources",
+                                             "StateAuthority",
+                                             "StateAdministration",
+                                             "DemocraticInstitutions",
+                                             "ElectionAssistance",
+                                             "ElectoralSecurity",
+                                             "VoterEducation",
+                                             "PartyAssistance",
+                                             "CivilSocietyAssistance",
+                                             "Media",
+                                             "LocalReconciliation",
+                                             "NationalReconciliation",
+                                             "EconomicDevelopment",
+                                             "HumanitarianRelief",
+                                             "PublicHealth",
+                                             "RefugeeAssistance",
+                                             "LegalReform",
+                                             "PowerSharing"),
+                  "Cross-cutting" = c("HumanRights",
+                                      "ChildRights",
+                                      "SexualViolence",
+                                      "Gender")
+                  )
 
 ### create map
 activityMap <- leaflet(options = leafletOptions(minZoom = 2)) %>%
@@ -132,9 +181,7 @@ server <- function(input, output, session){
 	      selectizeInput(
 	        id,
 	        label = NULL,
-	        choices = list("More" = "ts",
-	                       "Activities" = "ds",
-	                       "Here" = "work"),
+	        choices = activity_list,
 	        multiple = TRUE
 	      ),
 	      id = id
@@ -208,9 +255,7 @@ server <- function(input, output, session){
 	      selectizeInput(
 	        id,
 	        label = NULL,
-	        choices = list("Activities" = "Activities",
-	                       "Petting cats" = "Petting cats",
-	                       "Feeding stray dogs" = "Feeding stray dogs"),
+	        choices = activity_list,
 	        multiple = TRUE
 	      ),
 	      id = id
@@ -230,15 +275,37 @@ server <- function(input, output, session){
 	##### Peaceeping Activities (Aggregated) #####
 	observeEvent(input$act_draw_plot1, {
 	  mission_grp <- isolate({
-	    out <- list()
+	    mission_grp <- list()
 	    for (a in inserted_mission) {
-	      out[[a]] <- input[[a]]
+	      mission_grp[[a]] <- input[[a]]
 	    }
-	    out
+	    mission_grp
 	  })
-	  output$inserted_mission <- renderPrint(inserted_mission)
 	  output$mission_grp <- renderPrint(mission_grp)
-	  activity_grp <- NULL
+
+	  activity_grp <- if(length(inserted_act) == 0) {
+	    blair_cat
+	  } else {
+	    isolate({
+	      activity_grp <- list()
+	      for (a in inserted_act) {
+	        activity_grp[[a]] <- input[[a]]
+	      }
+	      activity_grp
+	    })
+	  }
+	  output$activity_grp <- renderPrint(activity_grp)
+
+	  act_agg_data <- data_all %>%
+	    pivot_longer(cols = !c(PKO, month_index, month, year),
+	                 names_to = "Activity",
+	                 values_to = "number") %>%
+	    mutate(Activity = str_remove(Activity, "_All"))
+	           # here come somehow case_when with grouping list (blair_cat | activity_grp))
+
+	  output$testdata <- renderDataTable(act_agg_data)
+
+
 	})
 	##### Peaceeping Activities (Per mission) #####
 
