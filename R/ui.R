@@ -43,14 +43,23 @@ ui <- function(req) {
               tabPanel(
                 "Aggregated",
                 hr(),
-                h6("Timerange"),
-                sliderInput(
-                  "act_years",
+                h6("Timeline"),
+                radioButtons(
+                  "act_select_time",
                   label = NULL,
-                  min = as.Date("1989", format = "%Y"),
-                  max = as.Date("2018", format = "%Y"),
-                  value = c(as.Date("1989", format = "%Y"), as.Date("2018", format = "%Y")),
-                  timeFormat = "%Y"
+                  choices = list("Mission month" = "mission_month",
+                                 "Timerange" = "timerange"),
+                  inline = TRUE
+                ),
+                conditionalPanel(
+                  "input.act_select_time == 'timerange'",
+                  sliderInput(
+                    "act_select_time2",
+                    label = NULL,
+                    min = 1989,
+                    max = 2018,
+                    value = c(1989, 2018)
+                  )
                 ),
                 hr(),
                 h6("Missions"),
@@ -178,8 +187,9 @@ ui <- function(req) {
             h4("lul im big and placeholder for a plot"),
             verbatimTextOutput("mission_grp"),
             verbatimTextOutput("activity_grp"),
-            dataTableOutput("testdata"),
-            plotOutput("testplot")
+            # dataTableOutput("testdata"),
+            plotOutput("testplot"),
+            verbatimTextOutput("smooth")
           )
         )
       ),

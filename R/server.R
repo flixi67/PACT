@@ -9,10 +9,8 @@
 #' @noRd
 #' @keywords internal
 
-require(dplyr)
+require(tidyverse)
 require(leaflet)
-require(readr)
-require(rlang)
 require(zoo)
 require(jsonlite)
 
@@ -281,7 +279,6 @@ server <- function(input, output, session){
 	    }
 	    mission_grp
 	  })
-	  output$mission_grp <- renderPrint(mission_grp)
 
 	  activity_grp <- if(length(inserted_act) == 0) {
 	    blair_cat
@@ -294,17 +291,44 @@ server <- function(input, output, session){
 	      activity_grp
 	    })
 	  }
-	  output$activity_grp <- renderPrint(activity_grp)
 
 	  act_agg_data <- data_all %>%
 	    pivot_longer(cols = !c(PKO, month_index, month, year),
 	                 names_to = "Activity",
 	                 values_to = "number") %>%
-	    mutate(Activity = str_remove(Activity, "_All"))
-	           # here come somehow case_when with grouping list (blair_cat | activity_grp))
+	    mutate(Activity = str_remove(Activity, "_All"),
+	           Activity =input_aggregate(Activity, activity_grp),
+	           PKO = input_aggregate(PKO, mission_grp)) %>%
+	    filter(!is.na(Activity), !is.na(PKO)) %>%
+	    when(input$act_select_time == "mission_month"
+	         ~ group_by(., PKO, month_index, Activity),
+	         ~ group_by(., PKO, year, month, Activity)) %>%
+	    when(input$act_select_time == "timerange"
+	         ~ filter(., year >= input$act_select_time2[1] & year <= input$act_select_time2[2]),
+	         ~ .) %>%
+	    summarise(number = sum(number, na.rm = TRUE))
 
 	  output$testdata <- renderDataTable(act_agg_data)
 
+	  output$testplot <- renderPlot({
+	    when(input$act_smooth1 == FALSE & input$act_select_time == "mission_month"
+	         ~ ggplot(data = act_agg_data) +
+	           geom_line(aes(y = number, x = month_index, group = Activity)) +
+	           facet_wrap(~ PKO, scales = "free_x"),
+	         input$act_smooth1 == TRUE & input$act_select_time == "mission_month"
+	         ~ ggplot(data = act_agg_data) +
+	           geom_smooth(
+	             aes(
+	               x = as.numeric(month_index),
+	               y = as.numeric(number),
+	               group = Activity
+	             ),
+	             se = FALSE
+	           ) +
+	           facet_wrap(~ PKO))
+	  })
+
+	  output$smooth <- renderPrint(input$act_smooth1)
 
 	})
 	##### Peaceeping Activities (Per mission) #####
