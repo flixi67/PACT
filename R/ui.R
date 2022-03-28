@@ -27,7 +27,7 @@ ui <- function(req) {
       actionButton("lol", "Press me daddy!", icon = icon("hand-paper"))
     ),
     navbarMenu(
-      "Plots",
+      "Plotting tool",
       #### Plot: Peacekeeping Activities ####
       tabPanel(
         "Peacekeeping Activities",
@@ -37,11 +37,12 @@ ui <- function(req) {
             tags$style(HTML(".tabbable > .nav > li > a {background-color: lightgrey; width: 100%; text-align: center}")),
             tags$style(HTML(".tabbable > .nav > li {width: 50%}")),
             tabsetPanel(
-              id = "type-act",
+              id = "type_act",
               type = "pills",
               ###### Aggregated ######
               tabPanel(
                 "Aggregated",
+                value = 1,
                 hr(),
                 h6("Timeline"),
                 radioButtons(
@@ -58,7 +59,8 @@ ui <- function(req) {
                     label = NULL,
                     min = 1989,
                     max = 2018,
-                    value = c(1989, 2018)
+                    value = c(1989, 2018),
+                    sep = ""
                   )
                 ),
                 hr(),
@@ -105,7 +107,11 @@ ui <- function(req) {
                 div(
                   style = "text-align:center",
                   checkboxInput("act_smooth1", label = "Smooth line"),
-                  checkboxInput("act_color1", label = "Use colors"),
+                  checkboxGroupInput(
+                    "act_color1",
+                    label = NULL,
+                    choices = c("Use colors" = "Activity")
+                  ),
                   actionButton(
                     "act_draw_plot1",
                     label = "draw plot",
@@ -118,6 +124,7 @@ ui <- function(req) {
               ###### Per mission ######
               tabPanel(
                 "Mission",
+                value = 2,
                 hr(),
                 h6("Missions"),
                 radioButtons(
@@ -139,9 +146,9 @@ ui <- function(req) {
                       options = list(
                         valueField = "PKO",
                         labelField = "PKO",
-                        searhField = "PKO",
+                        searchField = c("PKO", "name"),
                         create = FALSE,
-                        placeholder = "Select missions to aggregate",
+                        placeholder = "Select missions to show",
                         options = toJSON(mission_data),
                         render = I("{
         option: function(item, escape) {
@@ -184,12 +191,14 @@ ui <- function(req) {
           ),
           ##### Main panel #####
           mainPanel(
-            h4("lul im big and placeholder for a plot"),
-            verbatimTextOutput("mission_grp"),
-            verbatimTextOutput("activity_grp"),
-            # dataTableOutput("testdata"),
-            plotOutput("testplot"),
-            verbatimTextOutput("smooth")
+            conditionalPanel(
+              "input.type_act == 1",
+              plotOutput("act_agg_plot")
+            ),
+            conditionalPanel(
+              "input.type_act == 2",
+              plotOutput("act_mission_plot")
+            )
           )
         )
       ),
@@ -200,20 +209,31 @@ ui <- function(req) {
           ##### Sidebar #####
           sidebarPanel(
             tabsetPanel(
-              id = "type-ec",
+              id = "type_ec",
               type = "pills",
               ###### Aggregated ######
               tabPanel(
                 "Aggregated",
+                value = 1,
                 hr(),
-                h6("Timerange"),
-                sliderInput(
-                  "ec_years",
+                h6("Timeline"),
+                radioButtons(
+                  "ec_select_time",
                   label = NULL,
-                  min = as.Date("1989", format = "%Y"),
-                  max = as.Date("2018", format = "%Y"),
-                  value = c(as.Date("1989", format = "%Y"), as.Date("2018", format = "%Y")),
-                  timeFormat = "%Y"
+                  choices = list("Mission month" = "mission_month",
+                                 "Timerange" = "timerange"),
+                  inline = TRUE
+                ),
+                conditionalPanel(
+                  "input.ec_select_time == 'timerange'",
+                  sliderInput(
+                    "ec_select_time2",
+                    label = NULL,
+                    min = 1989,
+                    max = 2018,
+                    value = c(1989, 2018),
+                    sep = ""
+                  )
                 ),
                 hr(),
                 h6("Missions"),
@@ -259,7 +279,7 @@ ui <- function(req) {
                 div(
                   style = "text-align:center",
                   checkboxInput("ec_smooth1", label = "Smooth line"),
-                  checkboxInput("ec_color1", label = "Use colors"),
+                  checkboxGroupInput("ec_color1", label = "Use colors"),
                   actionButton(
                     "ec_draw_plot1",
                     label = "draw plot",
@@ -272,6 +292,7 @@ ui <- function(req) {
               ###### Per mission ######
               tabPanel(
                 "Mission",
+                value = 2,
                 hr(),
                 h6("Missions"),
                 radioButtons(
@@ -293,9 +314,9 @@ ui <- function(req) {
                       options = list(
                         valueField = "PKO",
                         labelField = "PKO",
-                        searhField = "PKO",
+                        searchField = c("PKO", "name"),
                         create = FALSE,
-                        placeholder = "Select missions to aggregate",
+                        placeholder = "Select missions to show",
                         options = toJSON(mission_data),
                         render = I("{
         option: function(item, escape) {
@@ -312,14 +333,14 @@ ui <- function(req) {
                   )
                 ),
                 hr(),
-                h6("Activities"),
-                selectizeInput(
-                  "ec_select_act",
-                  label = NULL,
-                  choices = activity_list,
-                  selected = "Activities",
-                  multiple = TRUE
-                ),
+                h6("Engagement categories"),
+                # selectizeInput( REPLACE WITH checkboxGroup with EC
+                #   "ec_select_act",
+                #   label = NULL,
+                #   choices = activity_list,
+                #   selected = "Activities",
+                #   multiple = TRUE
+                # ),
                 hr(),
                 div(
                   style = "text-align:center",
@@ -338,18 +359,20 @@ ui <- function(req) {
           ),
           ##### Main panel #####
           mainPanel(
-            h2("im smaller and different")
+            conditionalPanel(
+              "input.type_ec == 1",
+              plotOutput("ec_agg_plot")
+            ),
+            conditionalPanel(
+              "input.type_ec == 2",
+              plotOutput("ec_mission_plot")
+            )
           )
         )
       )
     ),
     navbarMenu(
-      "Missions",
-      #### Missions: Overview ####
-      tabPanel(
-        "Mission overview",
-        shiny::h3("Here comes overview by continent, timeranges")
-      ),
+      "Mission overview",
       #### Missions: Data Coverage ####
       tabPanel(
         "Data coverage",
@@ -358,12 +381,11 @@ ui <- function(req) {
       #### Missions: Activity map ####
       tabPanel(
         "Activity map",
-        conditionalPanel(condition = "window.innerWidth < 1000 || window.innerHeight < 720",
-                         div(
-                           class = "outer",
-                           tags$style(type = "text/css", "#map {height: calc(100vh - 110px) !important;}"),
-                           leafletOutput("map")
-                         ))
+        div(
+          class = "outer",
+          tags$style(type = "text/css", "#map {height: calc(100vh - 110px) !important;}"),
+          leafletOutput("map")
+        )
       )
     ),
     #### About page/ Impressum ####

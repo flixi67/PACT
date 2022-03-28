@@ -138,7 +138,7 @@ server <- function(input, output, session){
 	        options = list(
 	          valueField = "PKO",
 	          labelField = "PKO",
-	          searhField = "PKO",
+	          searchField = c("PKO", "name"),
 	          create = FALSE,
 	          placeholder = "Select missions to aggregate",
 	          options = toJSON(mission_data),
@@ -212,7 +212,7 @@ server <- function(input, output, session){
 	        options = list(
 	          valueField = "PKO",
 	          labelField = "PKO",
-	          searhField = "PKO",
+	          searchField = c("PKO", "name"),
 	          create = FALSE,
 	          placeholder = "Select missions to aggregate",
 	          options = toJSON(mission_data),
@@ -271,14 +271,18 @@ server <- function(input, output, session){
 
 	#### Plot data ####
 	##### Peaceeping Activities (Aggregated) #####
-	observeEvent(input$act_draw_plot1, {
-	  mission_grp <- isolate({
-	    mission_grp <- list()
-	    for (a in inserted_mission) {
-	      mission_grp[[a]] <- input[[a]]
-	    }
-	    mission_grp
-	  })
+	observeEvent(c(input$act_draw_plot1, input$act_select_time), {
+	  mission_grp <- if (length(inserted_mission) == 0) {
+	    mission_list %>% unlist() %>% list() %>% set_names("All missions")
+	  } else {
+	    isolate({
+	      mission_grp <- list()
+	      for (a in inserted_mission) {
+	        mission_grp[[a]] <- input[[a]]
+	      }
+	      mission_grp
+	    })
+	  }
 
 	  activity_grp <- if(length(inserted_act) == 0) {
 	    blair_cat
@@ -297,41 +301,134 @@ server <- function(input, output, session){
 	                 names_to = "Activity",
 	                 values_to = "number") %>%
 	    mutate(Activity = str_remove(Activity, "_All"),
-	           Activity =input_aggregate(Activity, activity_grp),
-	           PKO = input_aggregate(PKO, mission_grp)) %>%
+	           Activity = input_aggregate_a(Activity, activity_grp),
+	           PKO = input_aggregate_m(PKO, mission_grp)) %>%
 	    filter(!is.na(Activity), !is.na(PKO)) %>%
 	    when(input$act_select_time == "mission_month"
 	         ~ group_by(., PKO, month_index, Activity),
-	         ~ group_by(., PKO, year, month, Activity)) %>%
+	         ~ .) %>%
 	    when(input$act_select_time == "timerange"
-	         ~ filter(., year >= input$act_select_time2[1] & year <= input$act_select_time2[2]),
+	         ~ filter(., year >= input$act_select_time2[1] & year <= input$act_select_time2[2]) %>%
+	           mutate(date = as.Date(paste(1, month, year), format = "%d %m %Y")) %>%
+	           group_by(PKO, date, Activity),
 	         ~ .) %>%
 	    summarise(number = sum(number, na.rm = TRUE))
 
 	  output$testdata <- renderDataTable(act_agg_data)
 
-	  output$testplot <- renderPlot({
-	    when(input$act_smooth1 == FALSE & input$act_select_time == "mission_month"
-	         ~ ggplot(data = act_agg_data) +
-	           geom_line(aes(y = number, x = month_index, group = Activity)) +
-	           facet_wrap(~ PKO, scales = "free_x"),
-	         input$act_smooth1 == TRUE & input$act_select_time == "mission_month"
-	         ~ ggplot(data = act_agg_data) +
-	           geom_smooth(
-	             aes(
-	               x = as.numeric(month_index),
-	               y = as.numeric(number),
-	               group = Activity
-	             ),
-	             se = FALSE
-	           ) +
-	           facet_wrap(~ PKO))
+	  output$act_agg_plot <- renderPlot({
+	    if (input$act_smooth1 == FALSE & input$act_select_time == "mission_month") {
+	      ggplot(data = act_agg_data) +
+	        geom_line(
+	          aes_string(
+	            x = "month_index",
+	            y = "number",
+	            group = "Activity",
+	            color = input$act_color1,
+	            linetype = "Activity"
+	          ),
+	          size = 1
+	        ) +
+	        facet_wrap(~ PKO, scales = "free_x")
+	    } else if (input$act_smooth1 == TRUE & input$act_select_time == "mission_month") {
+	      ggplot(data = act_agg_data %>%
+	               mutate(month_index = as.numeric(month_index),
+	                      number = as.numeric(number))) +
+	        geom_smooth(
+	          aes_string(
+	            x = "month_index",
+	            y = "number",
+	            group = "Activity",
+	            color = input$act_color1,
+	            linetype = "Activity"
+	          ),
+	          se = FALSE,
+	          size = 1
+	        ) +
+	        facet_wrap(~ PKO, scales = "free_x")
+	    } else if (input$act_smooth1 == FALSE & input$act_select_time == "timerange") {
+	      ggplot(data = act_agg_data) +
+	        geom_line(
+	          aes_string(
+	            x = "date",
+	            y = "number",
+	            group = "Activity",
+	            color = input$act_color1,
+	            linetype = "Activity"
+	          ),
+	          size = 1
+	        )
+	    } else if (input$act_smooth1 == TRUE & input$act_select_time == "timerange") {
+	      ggplot(data = act_agg_data %>%
+	               mutate(number = as.numeric(number))) +
+	        geom_smooth(
+	          aes_string(
+	            x = "date",
+	            y = "number",
+	            group = "Activity",
+	            color = input$act_color1,
+	            linetype = "Activity"
+	          ),
+	          se = FALSE,
+	          size = 1
+	        ) +
+	        facet_wrap(~ PKO, scales = "free_x")
+	    }
 	  })
-
-	  output$smooth <- renderPrint(input$act_smooth1)
-
 	})
+
 	##### Peaceeping Activities (Per mission) #####
+	observeEvent(input$act_draw_plot2, {
+	  mission_sel <- if (input$act_select_mission == "all") {
+	    unlist(mission_list)
+	  } else {
+	    isolate(input$act_select_missions)
+	  }
+
+	  activity_sel <- if (is.null(input$act_select_act)) {
+	    unlist(activity_list)
+	  } else {
+	    isolate(input$act_select_act)
+	  }
+
+	  act_mission_data <- data_all %>%
+	    select(-month, -year) %>%
+	    pivot_longer(cols = !c(PKO, month_index),
+	                 names_to = "Activity",
+	                 values_to = "number") %>%
+	    mutate(Activity = str_remove(Activity, "_All")) %>%
+	    filter(Activity %in% activity_sel & PKO %in% mission_sel) %>%
+	    group_by(PKO, month_index) %>%
+	    summarise(number = sum(number, na.rm = TRUE),
+	              perc = number/length(activity_sel))
+
+	  output$act_mission_plot <- renderPlot({
+	    if (input$act_smooth2 == FALSE) {
+	      ggplot(data = act_mission_data) +
+	        geom_line(
+	          aes(
+	            x = month_index,
+	            y = perc,
+	            group = PKO
+	          ),
+	          size = 1
+	        ) +
+	        facet_wrap(~ PKO, scales = "free_x")
+	    } else if (input$act_smooth2 == TRUE) {
+	      ggplot(data = act_mission_data) +
+	        geom_smooth(
+	          aes(
+	            x = month_index,
+	            y = perc,
+	            group = PKO
+	          ),
+	          se = FALSE,
+	          size = 1
+	        ) +
+	        facet_wrap(~ PKO, scales = "free_x")
+	    }
+	  })
+	})
 
 	##### Engagement Categories (Aggregated) #####
 	##### Engagement Categories (Per mission) #####
