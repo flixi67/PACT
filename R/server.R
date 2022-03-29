@@ -66,6 +66,11 @@ activity_list <- as.list(names(data) %>%
                                        str_replace_all("(?=[A-Z])", " ") %>%
                                        str_trim()))
 
+ec_list <- list("Monitor", "Meeting", "Advocate", "Outreach",
+                "Assist", "MaterialSupport", "Implement") %>%
+  set_names(c("Monitor", "Meeting", "Advocate", "Outreach",
+              "Assist", "Material Support", "Implement"))
+
 blair_cat <- list("Security-related" = c("DisarmamentDemobilization",
                                          "Reintegration",
                                          "ControlSALW",
@@ -122,7 +127,7 @@ server <- function(input, output, session){
 
 	#### Modular plot inputs ####
 	##### Groups of missions (peackeeping activities) #####
-	inserted_mission <- c()
+	act_inserted_mission <- c()
 
 	observeEvent(input$act_insert_mission, {
 	  btn <- input$act_insert_mission
@@ -157,18 +162,18 @@ server <- function(input, output, session){
 	      id = id
 	    )
 	  )
-	  inserted_mission <<- c(inserted_mission, id)
+	  act_inserted_mission <<- c(act_inserted_mission, id)
 	})
 
 	observeEvent(input$act_remove_mission, {
 	  removeUI(
-	    selector = paste0('#', inserted_mission[length(inserted_mission)])
+	    selector = paste0('#', act_inserted_mission[length(act_inserted_mission)])
 	  )
-	  inserted_mission <<- inserted_mission[-length(inserted_mission)]
+	  act_inserted_mission <<- act_inserted_mission[-length(act_inserted_mission)]
 	})
 
 	##### Groups of activities (peacekeeping activities) #####
-	inserted_act <- c()
+	act_inserted_act <- c()
 
 	observeEvent(input$act_insert_act, {
 	  btn <- input$act_insert_act
@@ -180,23 +185,26 @@ server <- function(input, output, session){
 	        id,
 	        label = NULL,
 	        choices = activity_list,
-	        multiple = TRUE
+	        multiple = TRUE,
+	        options = list(
+	          placeholder = "Select activities to aggregate"
+	        )
 	      ),
 	      id = id
 	    )
 	  )
-	  inserted_act <<- c(inserted_act, id)
+	  act_inserted_act <<- c(act_inserted_act, id)
 	})
 
 	observeEvent(input$act_remove_act, {
 	  removeUI(
-	    selector = paste0('#', inserted_act[length(inserted_act)])
+	    selector = paste0('#', act_inserted_act[length(act_inserted_act)])
 	  )
-	  inserted_act <<- inserted_act[-length(inserted_act)]
+	  act_inserted_act <<- act_inserted_act[-length(act_inserted_act)]
 	})
 
 	##### Groups of missions (engagement categories) #####
-	inserted_mission <- c()
+	ec_inserted_mission <- c()
 
 	observeEvent(input$ec_insert_mission, {
 	  btn <- input$ec_insert_mission
@@ -231,18 +239,18 @@ server <- function(input, output, session){
 	      id = id
 	    )
 	  )
-	  inserted_mission <<- c(inserted_mission, id)
+	  ec_inserted_mission <<- c(ec_inserted_mission, id)
 	})
 
 	observeEvent(input$ec_remove_mission, {
 	  removeUI(
-	    selector = paste0('#', inserted_mission[length(inserted_mission)])
+	    selector = paste0('#', ec_inserted_mission[length(ec_inserted_mission)])
 	  )
-	  inserted_mission <<- inserted_mission[-length(inserted_mission)]
+	  ec_inserted_mission <<- ec_inserted_mission[-length(ec_inserted_mission)]
 	})
 
 	##### Groups of activities (engagement categories) #####
-	inserted_act <- c()
+	ec_inserted_act <- c()
 
 	observeEvent(input$ec_insert_act, {
 	  btn <- input$ec_insert_act
@@ -254,42 +262,45 @@ server <- function(input, output, session){
 	        id,
 	        label = NULL,
 	        choices = activity_list,
-	        multiple = TRUE
+	        multiple = TRUE,
+	        options = list(
+	          placeholder = "Select activities to aggregate"
+	        )
 	      ),
 	      id = id
 	    )
 	  )
-	  inserted_act <<- c(inserted_act, id)
+	  ec_inserted_act <<- c(ec_inserted_act, id)
 	})
 
 	observeEvent(input$ec_remove_act, {
 	  removeUI(
-	    selector = paste0('#', inserted_act[length(inserted_act)])
+	    selector = paste0('#', ec_inserted_act[length(ec_inserted_act)])
 	  )
-	  inserted_act <<- inserted_act[-length(inserted_act)]
+	  ec_inserted_act <<- ec_inserted_act[-length(ec_inserted_act)]
 	})
 
 	#### Plot data ####
 	##### Peaceeping Activities (Aggregated) #####
 	observeEvent(c(input$act_draw_plot1, input$act_select_time), {
-	  mission_grp <- if (length(inserted_mission) == 0) {
+	  mission_grp <- if (length(act_inserted_mission) == 0) {
 	    mission_list %>% unlist() %>% list() %>% set_names("All missions")
 	  } else {
 	    isolate({
 	      mission_grp <- list()
-	      for (a in inserted_mission) {
+	      for (a in act_inserted_mission) {
 	        mission_grp[[a]] <- input[[a]]
 	      }
 	      mission_grp
 	    })
 	  }
 
-	  activity_grp <- if(length(inserted_act) == 0) {
+	  activity_grp <- if(length(act_inserted_act) == 0) {
 	    blair_cat
 	  } else {
 	    isolate({
 	      activity_grp <- list()
-	      for (a in inserted_act) {
+	      for (a in act_inserted_act) {
 	        activity_grp[[a]] <- input[[a]]
 	      }
 	      activity_grp
@@ -313,8 +324,6 @@ server <- function(input, output, session){
 	           group_by(PKO, date, Activity),
 	         ~ .) %>%
 	    summarise(number = sum(number, na.rm = TRUE))
-
-	  output$testdata <- renderDataTable(act_agg_data)
 
 	  output$act_agg_plot <- renderPlot({
 	    if (input$act_smooth1 == FALSE & input$act_select_time == "mission_month") {
@@ -431,6 +440,69 @@ server <- function(input, output, session){
 	})
 
 	##### Engagement Categories (Aggregated) #####
+	observeEvent(c(input$ec_draw_plot1, input$ec_select_time), {
+	  mission_grp <- if (length(ec_inserted_mission) == 0) {
+	    mission_list %>% unlist() %>% list() %>% set_names("All missions")
+	  } else {
+	    isolate({
+	      mission_grp <- list()
+	      for (a in ec_inserted_mission) {
+	        mission_grp[[a]] <- input[[a]]
+	      }
+	      mission_grp
+	    })
+	  }
+
+	  activity_grp <- if(length(ec_inserted_act) == 0) {
+	    blair_cat
+	  } else {
+	    isolate({
+	      activity_grp <- list()
+	      for (a in ec_inserted_act) {
+	        activity_grp[[a]] <- input[[a]]
+	      }
+	      activity_grp
+	    })
+	  }
+
+	  ec_agg_data <- data_all %>%
+	    pivot_longer(cols = !c(PKO, month_index, month, year),
+	                 names_to = "Activity",
+	                 values_to = "number") %>%
+	    mutate(Activity = str_remove(Activity, "_All"),
+	           Activity = input_aggregate_a(Activity, activity_grp),
+	           PKO = input_aggregate_m(PKO, mission_grp)) %>%
+	    filter(!is.na(Activity), !is.na(PKO)) %>%
+	    when(input$act_select_time == "mission_month"
+	         ~ group_by(., PKO, month_index, Activity),
+	         ~ .) %>%
+	    when(input$act_select_time == "timerange"
+	         ~ filter(., year >= input$act_select_time2[1] & year <= input$act_select_time2[2]) %>%
+	           mutate(date = as.Date(paste(1, month, year), format = "%d %m %Y")) %>%
+	           group_by(PKO, date, Activity),
+	         ~ .) %>%
+	    summarise(number = sum(number, na.rm = TRUE))
+
+	  output$testdata <- renderDataTable(ec_agg_data)
+
+	  output$act_agg_plot <- renderPlot({
+	    if (input$act_smooth1 == FALSE & input$act_select_time == "mission_month") {
+	      ggplot(data = act_agg_data) +
+	        geom_line(
+	          aes_string(
+	            x = "month_index",
+	            y = "number",
+	            group = "Activity",
+	            color = input$act_color1,
+	            linetype = "Activity"
+	          ),
+	          size = 1
+	        ) +
+	        facet_wrap(~ PKO, scales = "free_x")
+	    }
+	  })
+	})
+
 	##### Engagement Categories (Per mission) #####
 
 }

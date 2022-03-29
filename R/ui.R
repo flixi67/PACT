@@ -12,6 +12,7 @@
 require(shiny)
 require(bslib)
 require(htmltools)
+require(tippy)
 
 ui <- function(req) {
   navbarPage(
@@ -24,7 +25,7 @@ ui <- function(req) {
       "Welcome Page",
       h5("hello I appear upon loading but not in the navbar"),
       h6("also i lowkey fix things"),
-      actionButton("lol", "Press me daddy!", icon = icon("hand-paper"))
+      actionButton("lol", "Press me!", icon = icon("hand-paper"))
     ),
     navbarMenu(
       "Plotting tool",
@@ -52,6 +53,10 @@ ui <- function(req) {
                                  "Timerange" = "timerange"),
                   inline = TRUE
                 ),
+                tippy_this(
+                  "act_select_time",
+                  "Changes the Y-axis between month since mission start or calendar date"
+                ),
                 conditionalPanel(
                   "input.act_select_time == 'timerange'",
                   sliderInput(
@@ -67,6 +72,7 @@ ui <- function(req) {
                 h6("Missions"),
                 div(
                   style = "text-align:center",
+                  id = "act_div_mission",
                   tags$div(id = 'act_placeholder_mission'),
                   actionButton(
                     "act_insert_mission",
@@ -83,10 +89,15 @@ ui <- function(req) {
                     style = "margin: 1%"
                   )
                 ),
+                tippy_this(
+                  "act_div_mission",
+                  "Insert and remove fields for mission grouping. Missions can be searched by acronym or full name"
+                ),
                 hr(),
                 h6("Activities"),
                 div(
                   style = "text-align:center",
+                  id = "act_div_act",
                   tags$div(id = 'act_placeholder_act'),
                   actionButton(
                     "act_insert_act",
@@ -102,6 +113,11 @@ ui <- function(req) {
                     class = "btn-default",
                     style = "margin: 1%"
                   )
+                ),
+                tippy_this(
+                  "act_div_act",
+                  "Insert and remove fields for activity grouping. The same activity should not be added to different groups. If none are selected, categories according to <a href=\"https://onlinelibrary.wiley.com/doi/full/10.1111/ajps.12650\" target=\"_blank\">Blair et. al (2020)</a> are used",
+                  interactive = TRUE
                 ),
                 hr(),
                 div(
@@ -133,6 +149,10 @@ ui <- function(req) {
                   choices = list("All" = "all",
                                  "Selected" = "select"),
                   inline = TRUE
+                ),
+                tippy_this(
+                  "act_select_mission",
+                  "Missions to display as facets in the plot"
                 ),
                 conditionalPanel(
                   "input.act_select_mission == 'select'",
@@ -170,14 +190,13 @@ ui <- function(req) {
                   "act_select_act",
                   label = NULL,
                   choices = activity_list,
-                  selected = "Activities",
                   multiple = TRUE
                 ),
+                tippy_this("act_select_act", "Activities to be aggregated within each mission"),
                 hr(),
                 div(
                   style = "text-align:center",
                   checkboxInput("act_smooth2", label = "Smooth line"),
-                  checkboxInput("act_color2", label = "Use colors"),
                   actionButton(
                     "act_draw_plot2",
                     label = "draw plot",
@@ -239,6 +258,7 @@ ui <- function(req) {
                 h6("Missions"),
                 div(
                   style = "text-align:center",
+                  id = "ec_div_mission",
                   tags$div(id = 'ec_placeholder_mission'),
                   actionButton(
                     "ec_insert_mission",
@@ -259,6 +279,7 @@ ui <- function(req) {
                 h6("Activities"),
                 div(
                   style = "text-align:center",
+                  id = "ec_div_act",
                   tags$div(id = 'ec_placeholder_act'),
                   actionButton(
                     "ec_insert_act",
@@ -279,7 +300,11 @@ ui <- function(req) {
                 div(
                   style = "text-align:center",
                   checkboxInput("ec_smooth1", label = "Smooth line"),
-                  checkboxGroupInput("ec_color1", label = "Use colors"),
+                  checkboxGroupInput(
+                    "ec_color1",
+                    label = NULL,
+                    choices = c("Use colors" = "Activity")
+                  ),
                   actionButton(
                     "ec_draw_plot1",
                     label = "draw plot",
@@ -333,19 +358,31 @@ ui <- function(req) {
                   )
                 ),
                 hr(),
+                h6("Activities"),
+                selectizeInput(
+                  "ec_select_act",
+                  label = NULL,
+                  choices = activity_list,
+                  multiple = TRUE
+                ),
+                hr(),
                 h6("Engagement categories"),
-                # selectizeInput( REPLACE WITH checkboxGroup with EC
-                #   "ec_select_act",
-                #   label = NULL,
-                #   choices = activity_list,
-                #   selected = "Activities",
-                #   multiple = TRUE
-                # ),
+                checkboxGroupInput(
+                  "ec_select_ec",
+                  label = NULL,
+                  choices = ec_list,
+                  selected = ec_list,
+                  inline = TRUE
+                ),
                 hr(),
                 div(
                   style = "text-align:center",
                   checkboxInput("ec_smooth2", label = "Smooth line"),
-                  checkboxInput("ec_color2", label = "Use colors"),
+                  checkboxGroupInput(
+                    "ec_color2",
+                    label = NULL,
+                    choices = c("Use colors" = "EC")
+                  ),
                   actionButton(
                     "ec_draw_plot2",
                     label = "draw plot",
