@@ -1,19 +1,17 @@
-### Inputs
+### General form
 
-General form:
 page_{verb_}description{number}
 
-Examples:
+
+### Examples
+
 act_insert_mission
-
 act_mission3
+map_select_time
 
-act_years
+### List of prefixes
 
-### Outputs
-
-tbd
-
-### Panels
-
-
+act_    Plotting tool: Peacekeeping Activities
+ec_     Plotting tool: Engagement categories
+map_    Activity Map
+mo_     Mission overview

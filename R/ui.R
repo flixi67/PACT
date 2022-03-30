@@ -398,7 +398,8 @@ ui <- function(req) {
           mainPanel(
             conditionalPanel(
               "input.type_ec == 1",
-              plotOutput("ec_agg_plot")
+              plotOutput("ec_agg_plot"),
+              dataTableOutput("testdata")
             ),
             conditionalPanel(
               "input.type_ec == 2",
@@ -422,6 +423,93 @@ ui <- function(req) {
           class = "outer",
           tags$style(type = "text/css", "#map {height: calc(100vh - 110px) !important;}"),
           leafletOutput("map")
+        ),
+        absolutePanel(
+          class = "panel panel-default", top = 70, left = 85, width = 320,
+          height = "auto", fixed = TRUE,
+          style = "padding: 14px; background:rgba(232, 232, 232, 0.8); bottom:25px",
+          div(
+            style = "margin-bottom:15px;",
+            h6("Activity map"),
+            p("Hello I am a panel that appears above the map. Felix needs to test me on different screen sizes so I do not look ugly"),
+          ),
+          hr(),
+          div(
+            sliderInput(
+              inputId = "map_select_time",
+              label = NULL,
+              min = 1989,
+              max = 2018,
+              value = 2018,
+              step = 1,
+              sep = "",
+              width = "100%",
+              animate = animationOptions(interval = 1000, loop = TRUE)
+            ),
+            tags$style(type = "text/css", HTML(".irs-single {color:black; background:transparent}")),
+            tags$style(type = "text/css", HTML(".irs-grid-text {color:#333333}"))
+          ),
+          div(
+            checkboxInput("map_show_active", "Show active missions"),
+            div(
+              style = "width: 80%; float: left",
+              selectizeInput(
+                "map_activity1",
+                label = NULL,
+                choices = activity_list,
+                multiple = TRUE,
+                options = list(
+                  placeholder = "Select activity",
+                  maxItems = 1
+                )
+              )
+            ),
+            div(
+              style = "width: 20%; float: left; padding: 5px",
+              icon("hands-helping"),
+              tags$style(".fa-hands-helping {color: blue}")
+            ),
+            div(
+              style = "width: 80%; float: left",
+              selectizeInput(
+                "map_activity2",
+                label = NULL,
+                choices = activity_list,
+                multiple = TRUE,
+                options = list(
+                  placeholder = "Select activity",
+                  maxItems = 1
+                )
+              ),
+            ),
+            div(
+              style = "width: 20%; float: left; padding: 5px",
+              icon("people-carry"),
+              tags$style(".fa-people-carry {color: red}")
+            ),
+            div(
+              style = "width: 80%; float: left",
+              selectizeInput(
+                "map_activity3",
+                label = NULL,
+                choices = activity_list,
+                multiple = TRUE,
+                options = list(
+                  placeholder = "Select activity",
+                  maxItems = 1
+                )
+              )
+            ),
+            div(
+              style = "width: 20%; float: left; padding: 5px",
+              icon("helicopter"),
+              tags$style(".fa-helicopter {color: green}")
+            )
+          ),
+          div(
+            style = "color:#888888; float: left",
+            p("Hello random text in color 88")
+          )
         )
       )
     ),

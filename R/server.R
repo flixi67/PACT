@@ -33,6 +33,11 @@ data_ec <- data %>%
          contains("_Meeting"), contains("_Advocate"), contains("_Outreach"),
          contains("_Implement"), contains("_Assist"))
 
+replace <- names(data_ec) %>% str_subset("_[A-Z]")
+
+data_ec[, replace] <- data_ec[, replace] %>%
+  replace(is.na(.), 0)
+
 ### create choicelists, selectors, ...
 mission_list <- as.list(unique(data$PKO) %>%
                           set_names(unique(data$PKO)))

@@ -128,6 +128,44 @@ plot_p9 <- base +
   ylab("Share of activities implemented") +
   xlab("")
 
+#### EC
 
+replace <- names(data) %>% str_subset("_[A-Z]")
 
+data[, replace] <- data[, replace] %>%
+  replace(is.na(.), 0)
+
+data_ec %>%
+  group_by(PKO, year, month, month_index) %>%
+  summarise(Monitor = !!parse_quo(paste(names(data_ec) %>%
+                                          str_subset("Monitor"),
+                                        collapse = " + "),
+                                  env = caller_env()),
+            Meeting = !!parse_quo(paste(names(data_ec) %>%
+                                          str_subset("Meeting"),
+                                        collapse = " + "),
+                                  env = caller_env()),
+            Advocate = !!parse_quo(paste(names(data_ec) %>%
+                                           str_subset("Advocate"),
+                                         collapse = " + "),
+                                   env = caller_env()),
+            Outreach = !!parse_quo(paste(names(data_ec) %>%
+                                           str_subset("Outreach"),
+                                         collapse = " + "),
+                                   env = caller_env()),
+            MaterialSupport = !!parse_quo(paste(names(data_ec) %>%
+                                                  str_subset("MaterialSupport"),
+                                                collapse = " + "),
+                                          env = caller_env()),
+            Assist = !!parse_quo(paste(names(data_ec) %>%
+                                         str_subset("Assist"),
+                                       collapse = " + "),
+                                 env = caller_env()),
+            Implement = !!parse_quo(paste(names(data_ec) %>%
+                                            str_subset("Implement"),
+                                          collapse = " + "),
+                                    env = caller_env())) %>%
+  pivot_longer(cols = !c(PKO, year, month, month_index), names_to = "Engagement category", values_to = "number") %>%
+  group_by(PKO, year, month, month_index, `Engagement category`) %>%
+  summarise(number = sum(number))
 
