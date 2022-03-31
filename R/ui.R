@@ -186,11 +186,17 @@ ui <- function(req) {
                 ),
                 hr(),
                 h6("Activities"),
-                selectizeInput(
-                  "act_select_act",
-                  label = NULL,
-                  choices = activity_list,
-                  multiple = TRUE
+                div(
+                  style = "text-align:center",
+                  selectizeInput(
+                    "act_select_act",
+                    label = NULL,
+                    choices = activity_list,
+                    multiple = TRUE,
+                    options = list(
+                      placeholder = "Select activities to aggregate"
+                    )
+                  )
                 ),
                 tippy_this("act_select_act", "Activities to be aggregated within each mission"),
                 hr(),
@@ -276,24 +282,15 @@ ui <- function(req) {
                   )
                 ),
                 hr(),
-                h6("Activities"),
+                h6("Engagement categories"),
                 div(
                   style = "text-align:center",
-                  id = "ec_div_act",
-                  tags$div(id = 'ec_placeholder_act'),
-                  actionButton(
-                    "ec_insert_act",
+                  checkboxGroupInput(
+                    "ec_select_ec",
                     label = NULL,
-                    icon = icon("plus-circle"),
-                    class = "btn-primary",
-                    style = "margin: 1%"
-                  ),
-                  actionButton(
-                    "ec_remove_act",
-                    label = NULL,
-                    icon = icon("minus-circle"),
-                    class = "btn-default",
-                    style = "margin: 1%"
+                    choices = ec_list,
+                    selected = ec_list,
+                    inline = TRUE
                   )
                 ),
                 hr(),
@@ -303,7 +300,7 @@ ui <- function(req) {
                   checkboxGroupInput(
                     "ec_color1",
                     label = NULL,
-                    choices = c("Use colors" = "Activity")
+                    choices = c("Use colors" = "`Engagement category`")
                   ),
                   actionButton(
                     "ec_draw_plot1",
@@ -359,20 +356,29 @@ ui <- function(req) {
                 ),
                 hr(),
                 h6("Activities"),
-                selectizeInput(
-                  "ec_select_act",
-                  label = NULL,
-                  choices = activity_list,
-                  multiple = TRUE
+                div(
+                  style = "text-align:center",
+                  selectizeInput(
+                    "ec_select_act",
+                    label = NULL,
+                    choices = activity_list,
+                    multiple = TRUE,
+                    options = list(
+                      placeholder = "Select activities to aggregate"
+                    )
+                  )
                 ),
                 hr(),
                 h6("Engagement categories"),
-                checkboxGroupInput(
-                  "ec_select_ec",
-                  label = NULL,
-                  choices = ec_list,
-                  selected = ec_list,
-                  inline = TRUE
+                div(
+                  style = "text-align:center",
+                  checkboxGroupInput(
+                    "ec_select_ec2",
+                    label = NULL,
+                    choices = ec_list,
+                    selected = ec_list,
+                    inline = TRUE
+                  )
                 ),
                 hr(),
                 div(
@@ -381,7 +387,7 @@ ui <- function(req) {
                   checkboxGroupInput(
                     "ec_color2",
                     label = NULL,
-                    choices = c("Use colors" = "EC")
+                    choices = c("Use colors" = "`Engagement category`")
                   ),
                   actionButton(
                     "ec_draw_plot2",
@@ -398,8 +404,7 @@ ui <- function(req) {
           mainPanel(
             conditionalPanel(
               "input.type_ec == 1",
-              plotOutput("ec_agg_plot"),
-              dataTableOutput("testdata")
+              plotOutput("ec_agg_plot")
             ),
             conditionalPanel(
               "input.type_ec == 2",

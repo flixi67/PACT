@@ -125,10 +125,6 @@ activityMap <- leaflet(options = leafletOptions(minZoom = 2)) %>%
 
 
 server <- function(input, output, session){
-  #### PLACEHOLDERS ####
-	output$map <- renderLeaflet({
-	  activityMap
-	})
 
 	#### Modular plot inputs ####
 	##### Groups of missions (peackeeping activities) #####
@@ -470,37 +466,107 @@ server <- function(input, output, session){
 	    })
 	  }
 
-	  ec_agg_data <- data_all %>%
-	    pivot_longer(cols = !c(PKO, month_index, month, year),
-	                 names_to = "Activity",
-	                 values_to = "number") %>%
-	    mutate(Activity = str_remove(Activity, "_All"),
-	           Activity = input_aggregate_a(Activity, activity_grp),
-	           PKO = input_aggregate_m(PKO, mission_grp)) %>%
-	    filter(!is.na(Activity), !is.na(PKO)) %>%
-	    when(input$act_select_time == "mission_month"
-	         ~ group_by(., PKO, month_index, Activity),
+	  ec_agg_data <- data_ec %>%
+	    group_by(PKO, year, month, month_index) %>%
+	    summarise(Monitor = !!parse_quo(paste(names(data_ec) %>%
+	                                            str_subset("Monitor"),
+	                                          collapse = " + "),
+	                                    env = caller_env()),
+	              Meeting = !!parse_quo(paste(names(data_ec) %>%
+	                                            str_subset("Meeting"),
+	                                          collapse = " + "),
+	                                    env = caller_env()),
+	              Advocate = !!parse_quo(paste(names(data_ec) %>%
+	                                             str_subset("Advocate"),
+	                                           collapse = " + "),
+	                                     env = caller_env()),
+	              Outreach = !!parse_quo(paste(names(data_ec) %>%
+	                                             str_subset("Outreach"),
+	                                           collapse = " + "),
+	                                     env = caller_env()),
+	              MaterialSupport = !!parse_quo(paste(names(data_ec) %>%
+	                                                    str_subset("MaterialSupport"),
+	                                                  collapse = " + "),
+	                                            env = caller_env()),
+	              Assist = !!parse_quo(paste(names(data_ec) %>%
+	                                           str_subset("Assist"),
+	                                         collapse = " + "),
+	                                   env = caller_env()),
+	              Implement = !!parse_quo(paste(names(data_ec) %>%
+	                                              str_subset("Implement"),
+	                                            collapse = " + "),
+	                                      env = caller_env())) %>%
+	    mutate(PKO = input_aggregate_m(PKO, mission_grp)) %>%
+	    filter(!is.na(PKO)) %>%
+	    pivot_longer(cols = !c(PKO, year, month, month_index), names_to = "Engagement category", values_to = "number") %>%
+	    when(input$ec_select_time == "mission_month"
+	         ~ group_by(., PKO, month_index, `Engagement category`),
 	         ~ .) %>%
-	    when(input$act_select_time == "timerange"
-	         ~ filter(., year >= input$act_select_time2[1] & year <= input$act_select_time2[2]) %>%
+	    when(input$ec_select_time == "timerange"
+	         ~ filter(., year >= input$ec_select_time2[1] & year <= input$ec_select_time2[2]) %>%
 	           mutate(date = as.Date(paste(1, month, year), format = "%d %m %Y")) %>%
-	           group_by(PKO, date, Activity),
+	           group_by(PKO, date, `Engagement category`),
 	         ~ .) %>%
-	    summarise(number = sum(number, na.rm = TRUE))
+	    when(!is.null(input$ec_select_ec)
+	         ~ filter(., `Engagement category` %in% input$ec_select_ec),
+	         ~ .) %>%
+	    summarise(number = sum(number))
 
-	  output$testdata <- renderDataTable(ec_agg_data)
-
-	  output$act_agg_plot <- renderPlot({
-	    if (input$act_smooth1 == FALSE & input$act_select_time == "mission_month") {
-	      ggplot(data = act_agg_data) +
+	  output$ec_agg_plot <- renderPlot({
+	    if (input$ec_smooth1 == FALSE & input$ec_select_time == "mission_month") {
+	      ggplot(data = ec_agg_data) +
 	        geom_line(
 	          aes_string(
 	            x = "month_index",
 	            y = "number",
-	            group = "Activity",
-	            color = input$act_color1,
-	            linetype = "Activity"
+	            group = "`Engagement category`",
+	            color = input$ec_color1,
+	            linetype = "`Engagement category`"
 	          ),
+	          size = 1
+	        ) +
+	        facet_wrap(~ PKO, scales = "free_x")
+	    } else if (input$ec_smooth1 == TRUE & input$ec_select_time == "mission_month") {
+	      ggplot(data = ec_agg_data %>%
+	               mutate(month_index = as.numeric(month_index),
+	                      number = as.numeric(number))) +
+	        geom_smooth(
+	          aes_string(
+	            x = "month_index",
+	            y = "number",
+	            group = "`Engagement category`",
+	            color = input$ec_color1,
+	            linetype = "`Engagement category`"
+	          ),
+	          se = FALSE,
+	          size = 1
+	        ) +
+	        facet_wrap(~ PKO, scales = "free_x")
+	    } else if (input$ec_smooth1 == FALSE & input$ec_select_time == "timerange") {
+	      ggplot(data = ec_agg_data) +
+	        geom_line(
+	          aes_string(
+	            x = "date",
+	            y = "number",
+	            group = "`Engagement category`",
+	            color = input$ec_color1,
+	            linetype = "`Engagement category`"
+	          ),
+	          size = 1
+	        ) +
+	        facet_wrap(~ PKO, scales = "free_x")
+	    } else if (input$ec_smooth1 == TRUE & input$ec_select_time == "timerange") {
+	      ggplot(data = ec_agg_data %>%
+	               mutate(number = as.numeric(number))) +
+	        geom_smooth(
+	          aes_string(
+	            x = "date",
+	            y = "number",
+	            group = "`Engagement category`",
+	            color = input$ec_color1,
+	            linetype = "`Engagement category`"
+	          ),
+	          se = FALSE,
 	          size = 1
 	        ) +
 	        facet_wrap(~ PKO, scales = "free_x")
@@ -509,5 +575,67 @@ server <- function(input, output, session){
 	})
 
 	##### Engagement Categories (Per mission) #####
+	observeEvent(input$ec_draw_plot2, {
+	  mission_sel <- if (input$ec_select_mission == "all") {
+	    unlist(mission_list)
+	  } else {
+	    isolate(input$ec_select_missions)
+	  }
+
+	  activity_sel <- if (is.null(input$ec_select_act)) {
+	    unlist(activity_list)
+	  } else {
+	    isolate(input$ec_select_act)
+	  }
+
+	  ec_mission_data <- data_ec %>%
+	    select(-month, -year) %>%
+	    pivot_longer(cols = !c(PKO, month_index),
+	                 names_to = "Activity",
+	                 values_to = "number") %>%
+	    separate(Activity, c("Activity", "Engagement category"), sep = "_(?![PU])", extra = "merge") %>%
+	    filter(Activity %in% activity_sel & PKO %in% mission_sel & `Engagement category` %in% input$ec_select_ec2) %>%
+	    group_by(PKO, month_index, `Engagement category`) %>%
+	    summarise(number = sum(number, na.rm = TRUE),
+	              perc = number/length(activity_sel))
+
+	  output$ec_mission_plot <- renderPlot({
+	    if (input$ec_smooth2 == FALSE) {
+	      ggplot(data = ec_mission_data) +
+	        geom_line(
+	          aes_string(
+	            x = "month_index",
+	            y = "perc",
+	            group = "`Engagement category`",
+	            color = input$ec_color2,
+	            linetype = "`Engagement category`"
+	          ),
+	          size = 1
+	        ) +
+	        facet_wrap(~ PKO, scales = "free_x")
+	    } else if (input$ec_smooth2 == TRUE) {
+	      ggplot(data = ec_mission_data) +
+	        geom_smooth(
+	          aes_string(
+	            x = "month_index",
+	            y = "perc",
+	            group = "`Engagement category`",
+	            color = input$ec_color2,
+	            linetype = "`Engagement category`"
+	          ),
+	          se = FALSE,
+	          size = 1
+	        ) +
+	        facet_wrap(~ PKO, scales = "free_x")
+	    }
+	  })
+	})
+
+
+
+	#### Activity Map ####
+	output$map <- renderLeaflet({
+	  activityMap
+	})
 
 }
