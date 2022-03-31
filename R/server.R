@@ -122,8 +122,6 @@ activityMap <- leaflet(options = leafletOptions(minZoom = 2)) %>%
   addTiles()
 
 
-
-
 server <- function(input, output, session){
 
 	#### Modular plot inputs ####
