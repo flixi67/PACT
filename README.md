@@ -9,7 +9,7 @@ The dataset covers 40 peacekeeping missions between 1989 and 2018. In the first 
 
 Further, for each of the activities the engagement category was recorded. This is particularly interesing, because the data not only allows to see *what* but also *how* activities were implemented. The data records 7 main engagement types - ***Monitor***, ***Advocate***, ***Outreach***, ***Material Support***, ***Assist*** and ***Implement***. It is possible that the same activity was implemented using different engagement types. Special engagement types and more precise sub-categories were included for some activities and will be available with the official release of the data.
 
-The basis of data is the reporting of the Secretary General to the Security Council. For the dataset, XXX (400 for PACT 2.0) reports including their annexes and addenda were coded. For further discussion, see Paper Rob Blair?. 
+The basis of data is the reporting of the Secretary General to the Security Council. For the dataset, XXX (400 for PACT 2.0) reports including their annexes and addenda were coded. For a discussion of the reports and data validity, see Paper Rob Blair?, p XX. 
 
 ## Visualization
 
