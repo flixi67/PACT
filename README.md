@@ -3,6 +3,8 @@ This is an interactive Shiny visualization of data on UN Peacekeeping Operations
 
 The data was collected in two turns. PACT 1.0 was initiated by Hannah Smidt in 2017 (?) for Peacekeeping Operations within Africa and later extended to the other continents in the project ["The Civilian Dimension of Peacekeeping Operations and Human Rights Promotion"](https://pcr.uu.se/research/research-themes/human-rights/the-civilian-dimension-of-peacekeeping-operations-and-human-rights-promotion/) (Sabine Otto, Constantin Ruhe, Hannah Smidt, Lisa Hultman, Jair van der Lijn).
 
+The app can be accessed [here](https://flixi67.shinyapps.io/pact/).
+
 ## Data
 
 The dataset covers 40 peacekeeping missions between 1989 and 2018. In the first round of data collection, 37 activities have been recorded. The codebook was slightly adjusted for the second round of data collection. ***Peace Process*** and ***Ceasefire*** were only recorded in PACT 1.0 (African countries), while ***National Reconciliation*** was only included for PACT 2.0 data. This should be kept in mind when analyzing these activities, as the visualization interprets the missing values as not implemented when including these activities in the aggregation. Also, for the ***Operations*** variable containing patrols and the use of force, coding categories were adjusted, but the substantive meaning remained the same. Therefore, data could be merged in the data cleaning process and only appears as ***Operations: Patrols/ Interventions*** and ***Operations: Use of Force*** in the Shiny app.
