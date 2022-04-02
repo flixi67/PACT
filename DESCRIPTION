@@ -21,6 +21,12 @@ RoxygenNote: 7.1.2
 Imports: 
     bslib,
     htmltools,
-    shiny
+    shiny,
+    tidyverse,
+    rlang,
+    leaflet,
+    sf,
+    zoo,
+    tippy
 Suggests: 
     pkgload
