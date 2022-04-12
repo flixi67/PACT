@@ -26,4 +26,4 @@ We added an overview page of the data sources that shows the coverage, reporting
 
 We thank the Swedish Research Council for the funding of the project as well as *PACT1 team* for their efforts, which made the extensive data collection displayed here possible.
 
-#### Logos in line here (Vetenskapradet, Uni Uppsala, DPCR, ..)
+#### Logos in line here (Vetenskapradet, Uni Uppsala, )
