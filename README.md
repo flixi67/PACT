@@ -3,6 +3,11 @@ This is an interactive Shiny visualization of data on UN Peacekeeping Operations
 
 The data was collected in two turns. PACT 1.0 was initiated by Hannah Smidt in 2017 (?) for Peacekeeping Operations within Africa and later extended to the other continents in the project ["The Civilian Dimension of Peacekeeping Operations and Human Rights Promotion"](https://pcr.uu.se/research/research-themes/human-rights/the-civilian-dimension-of-peacekeeping-operations-and-human-rights-promotion/) (Sabine Otto, Constantin Ruhe, Hannah Smidt, Lisa Hultman, Jair van der Lijn).
 
+
+<img src="data/logos/VR_logo.png" alt="Kapradet Logo" height="100" style="padding: 20px"/>
+<img src="data/logos/UU_logo.svg" alt="Uni Uppsala Logo" height="100"/> 
+
+
 The app can be accessed [here](https://flixi67.shinyapps.io/pact/).
 
 ## Data

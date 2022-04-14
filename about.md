@@ -1,6 +1,6 @@
 #### About
 
-This is an interactive Shiny visualization of data on UN Peacekeeping Operations, created by Felix Kube during a two-month internship at the Department of Peace and Conflict Research. The project aims to give researchers a preview of the newly collected and highly interesting data on peacekeeping activities on the ground, which are not yet published. 
+This is an interactive Shiny visualization of data on UN Peacekeeping Operations. The project aims to give researchers a preview of the newly collected and highly interesting data on peacekeeping activities on the ground, which are not yet published. 
 
 The data was collected in two turns. PACT 1.0 was initiated by Hannah Smidt in 2017 (?) for Peacekeeping Operations within Africa and later extended to the other continents in the project ["The Civilian Dimension of Peacekeeping Operations and Human Rights Promotion"](https://pcr.uu.se/research/research-themes/human-rights/the-civilian-dimension-of-peacekeeping-operations-and-human-rights-promotion/) (Sabine Otto, Constantin Ruhe, Hannah Smidt, Lisa Hultman, Jair van der Lijn).
 
@@ -24,6 +24,13 @@ We added an overview page of the data sources that shows the coverage, reporting
 
 #### Funding
 
-We thank the Swedish Research Council for the funding of the project as well as *PACT1 team* for their efforts, which made the extensive data collection displayed here possible.
+We thank the Swedish Research Council for the funding of the project as well as th *PACT 1 team* for their efforts, which made the extensive data collection displayed here possible.
 
-#### Logos in line here (Vetenskapradet, Uni Uppsala, )
+<img src="data/logos/VR_logo.png" alt="Kapradet Logo" height="200" style="padding: 40px"/>
+<img src="data/logos/UU_logo.svg" alt="Uni Uppsala Logo" height="200"/> 
+
+#### Contact
+
+This website and the interactive visualisations were created by Felix Kube during an internship at the Department of Peace and Conflict Research. You can learn more about the script used to produce this application or contribute on [GitHub](https://github.com/flixi67/PACT). Since this is an evolving project, we would love to hear if you have any suggestion for improvement, or if you have encountered any issue while using the app.
+
+If you have any questions about the PACT dataset or the project around it, do not hesitate to contact Sabine Otto ([sabine.otto\@pcr.uu.se](mailto:sabine.otto@pcr.uu.se?subject=PACT))

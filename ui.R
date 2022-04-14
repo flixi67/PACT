@@ -15,33 +15,50 @@ shinyUI(
     id = "main_menu",
     #### Landing Page #### Can be removed later, when this issue is fixed https://github.com/rstudio/shiny/issues/3604
     tabPanelBody(
-      "Welcome Page",
-      h4(
-        "Peacekeeping Activities Dataset (PACT): Interactive visualization"
+      "Landing Page",
+      style = "width: 80%; margin: auto",
+      h4("Peacekeeping Activities Dataset (PACT): Interactive visualization"),
+      p(
+        "This tool aims to let researchers create their own insights from the Peacekeeping Activities (PACT) dataset. To do so, you can find a modular plotting tool, links to our basis of data and a map overview of implementation of certain peackeeping activities across the world."
       ),
+      h5("Plotting tool"),
+      p(
+        "For activities and engagement categories, the tool offers plot creation in \"Aggregated\" and \"Mission\" mode. The difference is, that \"Aggregated\" allows for the grouping of missions and multiple activity groups, while \"Mission\" draws a separate plot for each mission selected in the analysis. The latter is recommended for insights into the implementation of specific actities in missions."),
+      h6("Aggregated"),
       div(
-        style = "width: 50%; margin: auto",
-        #this is css for Website layouting, can be added to elements that create HTML code in shiny
-        #div means a container on a webpage with 50% widht of the parent container
-        # margin: auto adjusts the margins (between this div and next html-Object) automatically, which positions it in the middle in this case
-        # Shiny basially offers wrapper functions that create html with the R syntax. p(), div(), headers like h2(), br()
-        # but also shiny::actionButton(id = "id", label = "Label") creates HTML code. Try executing it in the console and you will see
-        # the server function then uses these IDs and inputs and creates functionality from them
-        # the UI is just the bare frame and look of the page
-        p(
-          "This page only exists because of a bug in shiny. You can write something here. If this page were not not here, Shiny has trouble selecting the correct active tab (would be the \"Plotting tool: Activities\") on first load."
+        tags$ul(
+          tags$li(
+            "Timeline: Changes the Y-axis to either mission month, where the months within each mission are indexed or by date. Aggregation per mission month allows to compare implemented activies over the lifespan of missions, whereas aggregation by calendar date can give insights into developments over generations of peacekeeping."
+          ),
+          tags$li(
+            "Missions: Create grouping for missions. Different groups will be displayed in separate plots. Make sure each missions is only added to one mission group."
+          ),
+          tags$li(
+            "Activities: Create groups for activity aggregation. The activities in each group will be added up and displayed as a line in the plot."
+          )
         )
       ),
-      p("Second paragraph"),
-      h6("A sub-header"),
-      p(
-        "Look in the code how this was made. It is pretty self-explanatory. You can also add button, link buttons, pictures..."
+      div(
+        style = "border: 3px outset black; background-color: #FF6B6B; margin: auto; text-align: center; width: 410px",
+        p(
+          "In the current version of the tool, the X-axis in the \"Aggregated\" tab shows absolute numbers and not shares. Since the number of missions and their length in months varies, the graphs need careful interpretation, as a direct comparison of lines is not possible."
+        )
       ),
-      hr(),
-      # I am a horizontal lime
-      br(),
-      # I am a line break
-      br(),
+      h6("Mission"),
+      div(
+        tags$ul(
+          tags$li(
+            "Timeline: Changes the Y-axis to either mission month, where the months within each mission are indexed or by date. Aggregation per mission month allows to compare implemented activies over the lifespan of missions, whereas aggregation by calendar date can give insights into developments over generations of peacekeeping."
+          ),
+          tags$li(
+            "Missions: Missions to include. Each mission will be represented by a seperate facet."
+          ),
+          tags$li(
+            "Activities: The activities to consider. The line in the graph will show the share of activities implemented, if multiple are selected."
+          )
+        )
+      ),
+      h6("Example: What comes first? Security- vs. peacebuilding-related tasks"),
       actionButton("senseless", "Press me!", icon = icon("hand-paper"))
     ),
     navbarMenu(

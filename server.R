@@ -73,9 +73,6 @@ mission_data <- data %>%
   rename("name" = "Mission name")
 mission_data$name[mission_data$PKO == "UNAVEM"] <-
   "United Nations Angola Verification Mission"
-mission_data$name[mission_data$PKO == "UNSOM"] <-
-  "United Nations Operation in Somalia"
-# UNSOM in PACT is officially called UNOSOM, UNSOM is a different mission that started in 2017
 mission_data$name[mission_data$PKO == "MONUC"] <-
   "United Nations Organization Mission in the Democratic Republic of the Congo"
 mission_data$name[mission_data$PKO == "MONUSCO"] <-
