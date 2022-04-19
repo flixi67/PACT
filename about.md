@@ -33,4 +33,4 @@ We thank the Swedish Research Council for the funding of the project as well as 
 
 This website and the interactive visualisations were created by Felix Kube during an internship at the Department of Peace and Conflict Research. You can learn more about the script used to produce this application or contribute on [GitHub](https://github.com/flixi67/PACT). Since this is an evolving project, we would love to hear if you have any suggestion for improvement, or if you have encountered any issue while using the app.
 
-If you have any questions about the PACT dataset or the project around it, do not hesitate to contact Sabine Otto ([sabine.otto\@pcr.uu.se](mailto:sabine.otto@pcr.uu.se?subject=PACT))
+If you have any questions about the PACT dataset or the project around it, do not hesitate to contact Sabine Otto ([sabine.otto@pcr.uu.se](mailto:sabine.otto@pcr.uu.se?subject=PACT))
