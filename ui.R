@@ -59,7 +59,27 @@ shinyUI(
         )
       ),
       h6("Example: What comes first? Security- vs. peacebuilding-related tasks"),
-      actionButton("senseless", "Press me!", icon = icon("hand-paper"))
+      p(
+        "A long-standing debate in peacekeeping research is, when and if security-related tasks are implemented first. The priorization of security-related tasks such as civilian protection, demilitarization, the enforcement of arms embargos or even military operations would hint at a sequentation within missions and therefore also have implications for necessary equipment and operational demands."
+      ),
+      p(
+        "To get a first overview, we use the 'Aggregated' mode to depict the implementation of peacebuilding, security-related and cross-cutting tasks (<a href=\"https://onlinelibrary.wiley.com/doi/full/10.1111/ajps.12650\" target=\"_blank\">Blair et. al (2020)</a>). For the timeline, we choose 'Mission month', as we want to see developments within the missions."
+      ),
+      img(
+        src= "example1.png", align = "center", width = "100%"
+      ),
+      p(
+        "We can see that across all missions, security-related tasks (Activities 1) implementation starts slightly faster. After less than a year, the implemented tasks reach their maximum and sligthly decline in until the 4 year mark. For the peacebuilding activities (Activities 2), the implementation is more dynamic. After a bit more than a year, most tasks are implemented with a comparably stronger decline until the 4 year mark compared to security tasks. It is important to note that at this point, the graphs show absolute numbers and not shares, which is problematic when activity groups have different sizes. In this example, there are 18 peacebuilding tasks and only 10 security-related tasks. Therefore, the interpretation needs to be careful as only the progression of the line can be compared to each other. Also, some missions ends earlier than others, limiting the comparability on the Y-axis."
+      ),
+      p(
+        "To get a better overview, we add mission groups and plot three stabilization missions, a mission type with high military component often deployed in unstable theatres of operation, against a comparison group of three other missions of equal length in Africa. The results show that overall the differences are not that significant, but that stabilization missions implement more of the tasks overall (higher multidimensionality) and that the implementation of security-related tasks is slightly higher and endures longer over the course of the mission."
+      ),
+      img(
+        src= "example2.png", align = "center", width = "100%"
+      ),
+      br(),
+      br(),
+      br()
     ),
     navbarMenu(
       "Plotting tool",
