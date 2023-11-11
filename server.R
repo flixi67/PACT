@@ -481,11 +481,7 @@ shinyServer(function(input, output, session) {
 
   ##### Peaceeping Activities (Per mission) #####
   observeEvent(input$act_draw_plot2, {
-    mission_sel <- if (input$act_select_mission == "all") {
-      unlist(mission_list)
-    } else {
-      isolate(input$act_select_missions)
-    }
+    mission_sel <- isolate(input$act_select_missions)
 
     activity_sel <- if (is.null(input$act_select_act)) {
       unlist(activity_list)
@@ -709,11 +705,7 @@ shinyServer(function(input, output, session) {
 
   ##### Engagement Categories (Per mission) #####
   observeEvent(input$ec_draw_plot2, {
-    mission_sel <- if (input$ec_select_mission == "all") {
-      unlist(mission_list)
-    } else {
-      isolate(input$ec_select_missions)
-    }
+    mission_sel <- isolate(input$ec_select_missions)
 
     activity_sel <- if (is.null(input$ec_select_act)) {
       unlist(activity_list)

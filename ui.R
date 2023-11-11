@@ -10,7 +10,7 @@ library(tippy)
 
 shinyUI(
   navbarPage(
-    theme = bslib::bs_theme(version = 4, bootswatch = "litera"),
+    theme = bslib::bs_theme(version = 4, bootswatch = "lux"),
     title = "PACT Interactive Visualization",
     id = "main_menu",
     #### Landing Page #### Could be removed later, when this issue is fixed https://github.com/rstudio/shiny/issues/3604
@@ -157,7 +157,7 @@ shinyUI(
                 value = 2,
                 hr(),
                 h6("Missions"),
-                tippy_this("act_select_mission",
+                tippy_this("act_select_missions",
                            "Missions to display as facets in the plot"),
                 div(
                   style = "text-align:center",
@@ -324,14 +324,7 @@ shinyUI(
                 value = 2,
                 hr(),
                 h6("Missions"),
-                radioButtons(
-                  "ec_select_mission",
-                  label = NULL,
-                  choices = list("All" = "all",
-                                 "Selected" = "select"),
-                  inline = TRUE
-                ),
-                tippy_this("ec_select_mission",
+                tippy_this("ec_select_missions",
                            "Missions to display as facets in the plot"),
                 div(
                   style = "text-align:center",
