@@ -5,7 +5,7 @@
 #### Map is flickering
 
 Map is flickering and reloading each time.
-Solution idea: Try rendering the map and the animation client side using the plotly/leaflet leafletProxy: http://rstudio.github.io/leaflet/shiny.html
+Solution idea: Try rendering the map and the animation client side using the plotly/leaflet leafletProxy: http://rstudio.github.io/leaflet/shiny.html DONE
 
 gganimate + maps for easier gif export?
 
@@ -25,9 +25,11 @@ Landing page mit kurzer Vorstellung der Features, Logos, meinen Socials und dem 
 
 #### Data coverage tab layout
 
-has an absolute value for centering? Or only fails to resize in R-Studio Browser pane?
+~~has an absolute value for centering? Or only fails to resize in R-Studio Browser pane?~~
 
-Move to different subpage
+Move to different subpage DONE
+
+Status: seems like its a problem with DataTable output being fixed width, and adjusting to full page once when loading
 
 ---
 
@@ -43,15 +45,29 @@ Download data via downloadHandler and button, dataset is (reactively) already in
 
 #### Remove Engagement Categories - Mission - All
 
-Too clustered
+Too clustered DONE
 
 #### GIF export for the map
 
-gganimate + maps for easier gif exp-ort?
+gganimate + maps for easier gif export?
 
 #### Labeling options for mission groups and activity sets
 
 In dynamic UI as extra field that gets added along the selection field
 --> possible to add groups of inputs at once?
 
-#### Rethink about the usage of Engagement Categories plotting
+#### Rethink the usage of Engagement Categories plotting
+
+As long as no concrete research questions are being asked, the current setup seems satisfactory
+
+---
+
+## Mini things
+
+- [ ] adapt colors for icons in map to final theme
+
+- [ ] publish to shinyapps
+
+- [ ] add correct info on PACT 1 in "About"
+
+- [ ] Add another example (Disarmament and Demobilization, early missions vs late missions, Activities - Aggregated and EC - Aggregated/Missions)
