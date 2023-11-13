@@ -71,3 +71,5 @@ As long as no concrete research questions are being asked, the current setup see
 - [ ] add correct info on PACT 1 in "About"
 
 - [ ] Add another example (Disarmament and Demobilization, early missions vs late missions, Activities - Aggregated and EC - Aggregated/Missions)
+
+- [ ] Bilder einfügen in Manual/Guide
