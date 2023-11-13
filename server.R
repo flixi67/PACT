@@ -789,6 +789,7 @@ shinyServer(function(input, output, session) {
     leaflet() %>%
       setView(lng = -40, lat = 20, zoom = 2) %>%
       addTiles()
+    #### Old Map ####
       # when(
       #   input$map_show_active == TRUE
       #   ~ addPolygons(

@@ -1,3 +1,5 @@
+^renv$
+^renv\.lock$
 ^PACT\.Rproj$
 ^\.Rproj\.user$
 ^\.leprechaun$
