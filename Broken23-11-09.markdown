@@ -19,7 +19,7 @@ Activities and EC
 
 PACT 1.0 wer? wann?
 
-Anleitung auf subpage, nicht landing page
+~~Anleitung auf subpage, nicht landing page~~ DONE
 
 Landing page mit kurzer Vorstellung der Features, Logos, meinen Socials und dem Link zu Projekt
 
@@ -64,7 +64,7 @@ As long as no concrete research questions are being asked, the current setup see
 
 ## Mini things
 
-- [ ] adapt colors for icons in map to final theme
+- [ ] adapt colors for icons in map to final bootstrap theme
 
 - [ ] publish to shinyapps
 
