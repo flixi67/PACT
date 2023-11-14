@@ -9,6 +9,8 @@ Solution idea: Try rendering the map and the animation client side using the plo
 
 gganimate + maps for easier gif export?
 
+**Map is not showing all 3 differnent icons**
+
 #### Implement the shares instead of absolutes for Aggregated tab
 
 Activities and EC
@@ -18,6 +20,10 @@ Activities and EC
 #### Rewrite description and get faccccs
 
 PACT 1.0 wer? wann?
+
+--> Rob Blair / Hannah Smidt
+
+--> Sabine klärt ab
 
 ~~Anleitung auf subpage, nicht landing page~~ DONE
 
@@ -29,7 +35,7 @@ Landing page mit kurzer Vorstellung der Features, Logos, meinen Socials und dem 
 
 Move to different subpage DONE
 
-Status: seems like its a problem with DataTable output being fixed width, and adjusting to full page once when loading
+Status: seems like its a problem with DataTable output being fixed width, and adjusting to full page once when loading DONE
 
 ---
 
@@ -43,13 +49,15 @@ works in plotly: [R Shiny: export plot as png/jpg - Stack Overflow](https://stac
 
 Download data via downloadHandler and button, dataset is (reactively) already in existence and can be easily downloaded
 
+--> DataTable: Zustimmung Rob / Hannah
+
 #### Remove Engagement Categories - Mission - All
 
 Too clustered DONE
 
-#### GIF export for the map
+#### ~~GIF export for the map~~
 
-gganimate + maps for easier gif export?
+~~gganimate + maps for easier gif export?~~
 
 #### Labeling options for mission groups and activity sets
 
@@ -71,5 +79,11 @@ As long as no concrete research questions are being asked, the current setup see
 - [ ] add correct info on PACT 1 in "About"
 
 - [ ] Add another example (Disarmament and Demobilization, early missions vs late missions, Activities - Aggregated and EC - Aggregated/Missions)
+  o. **Human Rights (passt besser zum Workshop Thema)
+  Intrusiveness (Assist oder Implement in Human Rights Activities)**
 
 - [ ] Bilder einfügen in Manual/Guide
+
+- [ ] Dropdown Activity Map - Deselect Options more 
+
+- [ ] Data Coverage: Coverage plot und Data Table in Zieharmonika
