@@ -871,12 +871,7 @@ shinyServer(function(input, output, session) {
           icon = map_icons$bluehand
         ),
         ~ .
-      )
-  })
-
-  observe({
-    leafletProxy("map", data = data_map_reactive()) %>%
-      clearMarkers() %>%
+      ) %>%
       when(
         !is.null(input$map_activity2)
         ~ addMarkers(
@@ -887,12 +882,7 @@ shinyServer(function(input, output, session) {
           icon = map_icons$redhelp
         ),
         ~ .
-      )
-  })
-
-  observe({
-    leafletProxy("map", data = data_map_reactive()) %>%
-      clearMarkers() %>%
+      ) %>%
       when(
         !is.null(input$map_activity3)
         ~ addMarkers(
