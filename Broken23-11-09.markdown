@@ -7,9 +7,9 @@
 Map is flickering and reloading each time.
 Solution idea: Try rendering the map and the animation client side using the plotly/leaflet leafletProxy: http://rstudio.github.io/leaflet/shiny.html DONE
 
-gganimate + maps for easier gif export?
+~~gganimate + maps for easier gif export?~~
 
-**Map is not showing all 3 differnent icons**
+**Map is not showing all 3 differnent icons** FIXED
 
 #### Implement the shares instead of absolutes for Aggregated tab
 
