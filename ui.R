@@ -538,7 +538,7 @@ shinyUI(
     tabPanel(
       "Guide",
       div(style = "width: 80%; margin: auto",
-          includeMarkdown("info.md"))
+          includeMarkdown("manual.md"))
     ),
     #### About page/ Impressum ####
     tabPanel(

@@ -1,6 +1,6 @@
 This is an interactive Shiny visualization of data on UN Peacekeeping Operations. The project aims to give researchers a preview of the newly collected and highly interesting data on peacekeeping activities on the ground, which are not yet published. 
 
-The data was collected in two turns. PACT 1.0 was initiated by Hannah Smidt in 2017 (?) for Peacekeeping Operations within Africa and later extended to the other continents in the project ["The Civilian Dimension of Peacekeeping Operations and Human Rights Promotion"](https://pcr.uu.se/research/research-themes/human-rights/the-civilian-dimension-of-peacekeeping-operations-and-human-rights-promotion/) (Sabine Otto, Constantin Ruhe, Hannah Smidt, Lisa Hultman, Jair van der Lijn).
+The data was collected in two turns. PACT 1.0 was initiated by [Robert Blair](https://robblair.net/) and [Hannah Smidt](https://hannahsmidt.com/) in 2017 for Peacekeeping Operations within Africa and later extended to the other continents in the project ["The Civilian Dimension of Peacekeeping Operations and Human Rights Promotion"](https://pcr.uu.se/research/research-themes/human-rights/the-civilian-dimension-of-peacekeeping-operations-and-human-rights-promotion/) (Sabine Otto, Constantin Ruhe, Hannah Smidt, Lisa Hultman, Jair van der Lijn).
 
 #### Data
 

@@ -26,10 +26,14 @@ A long-standing debate in peacekeeping research is, if and when security-related
 
 To get a first overview, we use the 'Aggregated' mode to depict the implementation of peacebuilding, security-related and cross-cutting tasks (<a href="https://onlinelibrary.wiley.com/doi/full/10.1111/ajps.12650" target="_blank">Blair et. al (2020)</a>). For the timeline, we choose 'Mission month', as we want to see developments within the missions.
 
-![](http://127.0.0.1:3201/example1.png)
+<div style="width: 80vw; margin: auto">
+<img src="example1.png" alt="Graph showing the implementation of peacekeeping activities versus security activities for all missions", style="max-width: 100%; height: auto">
+</div>
 
 We can see that across all missions, security-related tasks (Activities 1) implementation starts slightly faster. After less than a year, the implemented tasks reach their maximum and slightly decline  until the four year mark. For the peacebuilding activities (Activities 2), the implementation is more dynamic. After a bit more than a year, most tasks are implemented with a comparably stronger decline until the 4 year mark compared to security tasks. It is important to note that at the point of creating the example, the tool only allowed to show absolute numbers and not shares, which is problematic when the activity groups have different amounts of activities aggregated. In this example, there are 18 peacebuilding tasks and only 10 security-related tasks. Therefore, the interpretation needs to be careful as only the progression of the line can be compared to each other. Also, some missions end earlier than others, limiting the comparability on the Y-axis with absolute values further.
 
 To get a better overview, we add mission groups and plot three stabilization missions, a mission type with high military component often deployed in unstable theatres of operation, against a comparison group of three other randomly selected missions of equal length in Africa. The results show that overall the differences are not that significant, but that stabilization missions implement more of the tasks in general (higher multidimensionality) and that the implementation of security-related tasks is slightly higher and endures longer over the course of the mission.
 
-![](http://127.0.0.1:3201/example2.png)
+<div style="width: 80vw; margin: auto">
+<img src="example2.png" alt="Graph showing the implementation of peacekeeping activities versus security activities for two subgroups of 3 missions each", style="max-width: 100%; height: auto">
+</div>

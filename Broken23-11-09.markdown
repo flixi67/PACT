@@ -76,14 +76,14 @@ As long as no concrete research questions are being asked, the current setup see
 
 - [ ] publish to shinyapps
 
-- [ ] add correct info on PACT 1 in "About"
+- [x] add correct info on PACT 1 in "About"
 
 - [ ] Add another example (Disarmament and Demobilization, early missions vs late missions, Activities - Aggregated and EC - Aggregated/Missions)
   o. **Human Rights (passt besser zum Workshop Thema)
   Intrusiveness (Assist oder Implement in Human Rights Activities)**
 
-- [ ] Bilder einfügen in Manual/Guide
+- [x] Bilder einfügen in Manual/Guide
 
-- [ ] Dropdown Activity Map - Deselect Options more 
+- [ ] Dropdown Activity Map - Deselect Options more prominently
 
 - [ ] Data Coverage: Coverage plot und Data Table in Zieharmonika
