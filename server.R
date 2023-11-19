@@ -414,77 +414,78 @@ shinyServer(function(input, output, session) {
       ) %>%
       summarise(number = sum(number, na.rm = TRUE))
 
-    output$act_agg_plot <- renderPlot({
-      if (input$act_smooth1 == FALSE &
-          input$act_select_time == "mission_month") {
-        ggplot(data = act_agg_data) +
-          geom_line(
-            aes_string(
-              x = "month_index",
-              y = "number",
-              group = "Activity",
-              color = input$act_color1,
-              linetype = "Activity"
-            ),
-            size = 1
-          ) +
-          facet_wrap( ~ PKO, scales = "free_x") +
-          labs(x = "Months since mission start", y = "Number of implemented activities")
-      } else if (input$act_smooth1 == TRUE &
-                 input$act_select_time == "mission_month") {
-        ggplot(data = act_agg_data %>%
-                 mutate(
-                   month_index = as.numeric(month_index),
-                   number = as.numeric(number)
-                 )) +
-          geom_smooth(
-            aes_string(
-              x = "month_index",
-              y = "number",
-              group = "Activity",
-              color = input$act_color1,
-              linetype = "Activity"
-            ),
-            se = FALSE,
-            size = 1
-          ) +
-          facet_wrap( ~ PKO, scales = "free_x") +
-          labs(x = "Months since mission start", y = "Number of implemented activities")
-      } else if (input$act_smooth1 == FALSE &
-                 input$act_select_time == "timerange") {
-        ggplot(data = act_agg_data) +
-          geom_line(
-            aes_string(
-              x = "date",
-              y = "number",
-              group = "Activity",
-              color = input$act_color1,
-              linetype = "Activity"
-            ),
-            size = 1
-          ) +
-          facet_wrap( ~ PKO, scales = "free_x") +
-          labs(x = "", y = "Number of implemented activities")
-      } else if (input$act_smooth1 == TRUE &
-                 input$act_select_time == "timerange") {
-        ggplot(data = act_agg_data %>%
-                 mutate(number = as.numeric(number))) +
-          geom_smooth(
-            aes_string(
-              x = "date",
-              y = "number",
-              group = "Activity",
-              color = input$act_color1,
-              linetype = "Activity"
-            ),
-            se = FALSE,
-            size = 1
-          ) +
-          facet_wrap( ~ PKO, scales = "free_x") +
-          labs(x = "", y = "Number of implemented activities")
-      }
-    })
-  })
+    if (input$act_smooth1 == FALSE &
+        input$act_select_time == "mission_month") {
+      act_agg_plot <- ggplot(data = act_agg_data) +
+        geom_line(
+          aes_string(
+            x = "month_index",
+            y = "number",
+            group = "Activity",
+            color = input$act_color1,
+            linetype = "Activity"
+          ),
+          size = 1
+        ) +
+        facet_wrap( ~ PKO, scales = "free_x") +
+        labs(x = "Months since mission start", y = "Number of implemented activities")
+    } else if (input$act_smooth1 == TRUE &
+               input$act_select_time == "mission_month") {
+      act_agg_plot <- ggplot(data = act_agg_data %>%
+                               mutate(
+                                 month_index = as.numeric(month_index),
+                                 number = as.numeric(number)
+                               )) +
+        geom_smooth(
+          aes_string(
+            x = "month_index",
+            y = "number",
+            group = "Activity",
+            color = input$act_color1,
+            linetype = "Activity"
+          ),
+          se = FALSE,
+          size = 1
+        ) +
+        facet_wrap( ~ PKO, scales = "free_x") +
+        labs(x = "Months since mission start", y = "Number of implemented activities")
+    } else if (input$act_smooth1 == FALSE &
+               input$act_select_time == "timerange") {
+      act_agg_plot <- ggplot(data = act_agg_data) +
+        geom_line(
+          aes_string(
+            x = "date",
+            y = "number",
+            group = "Activity",
+            color = input$act_color1,
+            linetype = "Activity"
+          ),
+          size = 1
+        ) +
+        facet_wrap( ~ PKO, scales = "free_x") +
+        labs(x = "", y = "Number of implemented activities")
+    } else if (input$act_smooth1 == TRUE &
+               input$act_select_time == "timerange") {
+      act_agg_plot <- ggplot(data = act_agg_data %>%
+                               mutate(number = as.numeric(number))) +
+        geom_smooth(
+          aes_string(
+            x = "date",
+            y = "number",
+            group = "Activity",
+            color = input$act_color1,
+            linetype = "Activity"
+          ),
+          se = FALSE,
+          size = 1
+        ) +
+        facet_wrap( ~ PKO, scales = "free_x") +
+        labs(x = "", y = "Number of implemented activities")
+    }
+
+    output$act_agg_plot <- renderPlot(act_agg_plot)
+
+  })s
 
   ##### Peaceeping Activities (Per mission) #####
   observeEvent(input$act_draw_plot2, {
@@ -775,6 +776,42 @@ shinyServer(function(input, output, session) {
       }
     })
   })
+
+  #### Download Handlers ####
+
+
+  output$act_download_plot2 <- downloadHandler(
+    # file name
+    filename = str_c(Sys.time(),' PACT-activity-plot.png'),
+    # content
+    content = function(file){
+      png(file)
+      print(act_mission_plot())
+      dev.off()
+    }
+  )
+
+  output$ec_download_plot1 <- downloadHandler(
+    # file name
+    filename <- str_c(Sys.time(),' PACT-ec-plot.png'),
+    # content
+    content = function(file){
+      png(file)
+      print(ec_agg_plot())
+      dev.off()
+    }
+  )
+
+  output$ec_download_plot2 <- downloadHandler(
+    # file name
+    filename <- str_c(Sys.time(),' PACT-ec-plot.png'),
+    # content
+    content = function(file){
+      png(file)
+      print(ec_mission_plot())
+      dev.off()
+    }
+  )
 
   #### Data coverage ####
   output$mo_timerange_plot <- renderPlot({
