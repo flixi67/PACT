@@ -8,6 +8,7 @@ library(rlang)
 library(bslib)
 library(htmltools)
 library(tippy)
+library(ggforce)
 
 source("R/utils.R")
 
@@ -47,6 +48,12 @@ replace <- names(data_ec) %>% str_subset("_[A-Z]")
 
 data_ec[, replace] <- data_ec[, replace] %>%
   replace(is.na(.), 0)
+
+data_mo <- data %>%
+  group_by(PKO) %>%
+  summarise(lower = min(as.yearmon(paste(month, year), "%m %Y")),
+            upper = max(as.yearmon(paste(month, year), "%m %Y")),
+            Continent = unique(Mission_Continent))
 
 ### create choicelists, selectors, ...
 mission_list <- as.list(unique(data$PKO) %>%
@@ -770,6 +777,15 @@ shinyServer(function(input, output, session) {
   })
 
   #### Data coverage ####
+  output$mo_timerange_plot <- renderPlot({
+    ggplot(data = data_mo) +
+      geom_linerange(aes(xmin = lower, xmax = upper, y = reorder(PKO, lower)),
+                     size = 2) +
+      scale_x_continuous(n.breaks = 10) +
+      facet_col(~ Continent, scales = "free_y", space = "free") +
+      ylab("")
+  })
+
   output$coverage <- renderDataTable({
     reportdata %>%
       select(PKO = report_namePKO, reportNumber, reportDate, reportPeriod_start, reportPeriod_end, numberParagraphs) %>%

@@ -4,13 +4,15 @@ library(zoo)
 library(jsonlite)
 library(sf)
 library(shiny)
+library(rlang)
 library(bslib)
 library(htmltools)
 library(tippy)
+library(ggforce)
 
 shinyUI(
   navbarPage(
-    theme = bslib::bs_theme(version = 4, bootswatch = "lux"),
+    theme = bslib::bs_theme(version = 4, bootswatch = "cosmo"),
     title = "PACT Interactive Visualization",
     id = "main_menu",
     #### Landing Page #### Could be removed later, when this issue is fixed https://github.com/rstudio/shiny/issues/3604
@@ -413,138 +415,141 @@ shinyUI(
                              plotOutput("ec_mission_plot"))
           )
         )
-      )
+      ),
+      icon = icon("wrench")
     ),
     #### Missions: Activity map ####
     tabPanel(
       "Activity map",
       div(
-        class = "outer",
-        tags$style(type = "text/css", "#map {height: calc(100vh - 110px) !important;}"),
-        leafletOutput("map")
-      ),
-      absolutePanel(
-        class = "panel panel-default",
-        top = 70,
-        left = 85,
-        width = 320,
-        height = "auto",
-        fixed = TRUE,
-        style = "padding: 14px; background:rgba(232, 232, 232, 0.8); bottom:25px",
+        position = "relative",
         div(
-          style = "margin-bottom:15px;",
-          h6("Activity map"),
-          p(
-            "This map helps to get an overview of the spatial and temporal dimension of UN peacekeeping activities. It shows where missions were employed in each year and which activities they implemented."
-          ),
+          class = "outer",
+          tags$style(type = "text/css", "#map {height: calc(100vh - 110px) !important;}"),
+          leafletOutput("map")
         ),
-        hr(),
-        div(
-          id = "map_div_time",
-          sliderInput(
-            inputId = "map_select_time",
-            label = NULL,
-            min = 1989,
-            max = 2018,
-            value = 2018,
-            step = 1,
-            sep = "",
-            width = "100%",
-            animate = animationOptions(interval = 1000, loop = TRUE)
-          ),
-          tags$style(
-            type = "text/css",
-            HTML(".irs-single {color:black; background:transparent}")
-          ),
-          tags$style(type = "text/css", HTML(".irs-grid-text {color:#333333}"))
-        ),
-        tippy_this(
-          "map_div_time",
-          "Select year to show in the map. Play button on the bottom right animates the map over time"
-        ),
-        div(
-          id = "map_div_act",
-          checkboxInput("map_show_active", "Show active missions"),
+        absolutePanel(
+          top = 100,
+          left = 85,
+          width = 320,
+          height = "auto",
+          fixed = FALSE,
+          style = "padding:15px; background:rgba(232, 232, 232, 0.8); bottom:25px",
           div(
-            style = "width: 90%; float: left",
-            selectizeInput(
-              "map_activity1",
-              label = NULL,
-              choices = activity_list,
-              multiple = TRUE,
-              options = list(placeholder = "Select activity",
-                             maxItems = 1)
-            )
-          ),
-          div(
-            style = "width: 10%; float: left; padding: 5px",
-            icon("hands-helping"),
-            tags$style(".fa-hands-helping {color: blue}")
-          ),
-          div(
-            style = "width: 90%; float: left",
-            selectizeInput(
-              "map_activity2",
-              label = NULL,
-              choices = activity_list,
-              multiple = TRUE,
-              options = list(placeholder = "Select activity",
-                             maxItems = 1)
+            style = "margin-bottom:15px;",
+            h6("Activity map"),
+            p(
+              "This map helps to get an overview of the spatial and temporal dimension of UN peacekeeping activities. It shows where missions were employed in each year and which activities they implemented."
             ),
           ),
+          hr(),
           div(
-            style = "width: 10%; float: left; padding: 5px",
-            icon("people-carry"),
-            tags$style(".fa-people-carry {color: red}")
+            id = "map_div_time",
+            sliderInput(
+              inputId = "map_select_time",
+              label = NULL,
+              min = 1989,
+              max = 2018,
+              value = 2018,
+              step = 1,
+              sep = "",
+              width = "100%",
+              animate = animationOptions(interval = 1000, loop = TRUE)
+            ),
+            tags$style(
+              type = "text/css",
+              HTML(".irs-single {color:black; background:transparent}")
+            ),
+            tags$style(type = "text/css", HTML(".irs-grid-text {color:#333333}"))
+          ),
+          tippy_this(
+            "map_div_time",
+            "Select year to show in the map. Play button on the bottom right animates the map over time"
           ),
           div(
-            style = "width: 90%; float: left",
-            selectizeInput(
-              "map_activity3",
-              label = NULL,
-              choices = activity_list,
-              multiple = TRUE,
-              options = list(placeholder = "Select activity",
-                             maxItems = 1)
+            id = "map_div_act",
+            checkboxInput("map_show_active", "Show active missions"),
+            div(
+              style = "width: 90%; float: left",
+              selectizeInput(
+                "map_activity1",
+                label = NULL,
+                choices = activity_list,
+                multiple = TRUE,
+                options = list(placeholder = "Select activity",
+                               maxItems = 1)
+              )
+            ),
+            div(
+              style = "width: 10%; float: left; padding: 5px",
+              icon("hands-helping"),
+              tags$style(".fa-hands-helping {color: blue}")
+            ),
+            div(
+              style = "width: 90%; float: left",
+              selectizeInput(
+                "map_activity2",
+                label = NULL,
+                choices = activity_list,
+                multiple = TRUE,
+                options = list(placeholder = "Select activity",
+                               maxItems = 1)
+              ),
+            ),
+            div(
+              style = "width: 10%; float: left; padding: 5px",
+              icon("people-carry"),
+              tags$style(".fa-people-carry {color: red}")
+            ),
+            div(
+              style = "width: 90%; float: left",
+              selectizeInput(
+                "map_activity3",
+                label = NULL,
+                choices = activity_list,
+                multiple = TRUE,
+                options = list(placeholder = "Select activity",
+                               maxItems = 1)
+              )
+            ),
+            div(
+              style = "width: 10%; float: left; padding: 5px",
+              icon("helicopter"),
+              tags$style(".fa-helicopter {color: green}")
             )
           ),
+          tippy_this("map_div_act", "Select activities to be plotted on the map"),
           div(
-            style = "width: 10%; float: left; padding: 5px",
-            icon("helicopter"),
-            tags$style(".fa-helicopter {color: green}")
-          )
-        ),
-        tippy_this("map_div_act", "Select activities to be plotted on the map"),
-        div(
-          style = "color:#888888; float: left",
-          br(),
-          br(),
-          br(),
-          p(
-            "If this input panel does not show correctly, try zooming in or out in the browser window."
+            style = "color:#888888; float: left",
           )
         )
-      )
+      ),
+      icon = icon("map")
     ),
     #### Data coverage ####
     tabPanel(
       "Data coverage",
       div(
         style = "width: 80%; margin: auto",
+        plotOutput("mo_timerange_plot"),
+        br(),
         dataTableOutput("coverage")
-      )
+      ),
+      icon = icon("table")
     ),
     #### Guide #### outdated example
     tabPanel(
       "Guide",
       div(style = "width: 80%; margin: auto",
-          includeMarkdown("manual.md"))
+          includeMarkdown("manual.md")),
+      icon = icon("lightbulb")
     ),
     #### About page/ Impressum ####
     tabPanel(
       "About",
       div(style = "width: 80%; margin: auto",
-          includeMarkdown("about.md"))
+          includeMarkdown("about.md")),
+      icon = icon("fingerprint")
     )
   )
 )

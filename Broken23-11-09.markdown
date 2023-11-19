@@ -25,9 +25,13 @@ PACT 1.0 wer? wann?
 
 --> Sabine klärt ab
 
+DONE DONE DONE
+
 ~~Anleitung auf subpage, nicht landing page~~ DONE
 
 Landing page mit kurzer Vorstellung der Features, Logos, meinen Socials und dem Link zu Projekt
+
+--> online HTML designer to copy? Linked-in modul, kontaktkarte etc etc
 
 #### Data coverage tab layout
 
