@@ -150,6 +150,14 @@ shinyUI(
                     icon = icon("paint-brush"),
                     class = "btn-warning",
                     style = "margin: 1%"
+                  ),
+                  hr(),
+                  actionButton(
+                    "act_download_plot1",
+                    label = "download",
+                    icon = icon("download"),
+                    class = "btn-secondary",
+                    style = "margin: 1%"
                   )
                 )
               ),
@@ -216,6 +224,14 @@ shinyUI(
                     label = "draw plot",
                     icon = icon("paint-brush"),
                     class = "btn-warning",
+                    style = "margin: 1%"
+                  ),
+                  hr(),
+                  actionButton(
+                    "act_download_plot2",
+                    label = "download",
+                    icon = icon("download"),
+                    class = "btn-secondary",
                     style = "margin: 1%"
                   )
                 )
@@ -317,6 +333,14 @@ shinyUI(
                     icon = icon("paint-brush"),
                     class = "btn-warning",
                     style = "margin: 1%"
+                  ),
+                  hr(),
+                  actionButton(
+                    "ec_download_plot1",
+                    label = "download",
+                    icon = icon("download"),
+                    class = "btn-secondary",
+                    style = "margin: 1%"
                   )
                 )
               ),
@@ -401,6 +425,14 @@ shinyUI(
                     label = "draw plot",
                     icon = icon("paint-brush"),
                     class = "btn-warning",
+                    style = "margin: 1%"
+                  ),
+                  hr(),
+                  actionButton(
+                    "ec_download_plot2",
+                    label = "download",
+                    icon = icon("download"),
+                    class = "btn-secondary",
                     style = "margin: 1%"
                   )
                 )

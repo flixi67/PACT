@@ -76,7 +76,7 @@ As long as no concrete research questions are being asked, the current setup see
 
 ## Mini things
 
-- [ ] adapt colors for icons in map to final bootstrap theme
+- [x] adapt colors for icons in map to final bootstrap theme
 
 - [ ] publish to shinyapps
 
@@ -88,6 +88,6 @@ As long as no concrete research questions are being asked, the current setup see
 
 - [x] Bilder einfügen in Manual/Guide
 
-- [ ] Dropdown Activity Map - Deselect Options more prominently
+- [ ] ~~Dropdown Activity Map - Deselect Options more prominently~~
 
 - [ ] Data Coverage: Coverage plot und Data Table in Zieharmonika
