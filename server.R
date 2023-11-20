@@ -485,7 +485,7 @@ shinyServer(function(input, output, session) {
 
     output$act_agg_plot <- renderPlot(act_agg_plot)
 
-  })s
+  })
 
   ##### Peaceeping Activities (Per mission) #####
   observeEvent(input$act_draw_plot2, {
@@ -777,13 +777,18 @@ shinyServer(function(input, output, session) {
     })
   })
 
-  #### Download Handlers ####
-
+  #### Download Handlers #### Not implemented yet
+  output$act_download_plot1 <- downloadHandler(
+    filename = str_c(Sys.time(),' PACT-activity-plot.png'),
+    content = function(file){
+      png(file)
+      print(act_mission_plot())
+      dev.off()
+    }
+  )
 
   output$act_download_plot2 <- downloadHandler(
-    # file name
     filename = str_c(Sys.time(),' PACT-activity-plot.png'),
-    # content
     content = function(file){
       png(file)
       print(act_mission_plot())
@@ -792,9 +797,7 @@ shinyServer(function(input, output, session) {
   )
 
   output$ec_download_plot1 <- downloadHandler(
-    # file name
     filename <- str_c(Sys.time(),' PACT-ec-plot.png'),
-    # content
     content = function(file){
       png(file)
       print(ec_agg_plot())
@@ -803,9 +806,7 @@ shinyServer(function(input, output, session) {
   )
 
   output$ec_download_plot2 <- downloadHandler(
-    # file name
     filename <- str_c(Sys.time(),' PACT-ec-plot.png'),
-    # content
     content = function(file){
       png(file)
       print(ec_mission_plot())
