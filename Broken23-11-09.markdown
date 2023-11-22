@@ -90,4 +90,4 @@ As long as no concrete research questions are being asked, the current setup see
 
 - [ ] ~~Dropdown Activity Map - Deselect Options more prominently~~
 
-- [ ] Data Coverage: Coverage plot und Data Table in Zieharmonika
+- [x] Data Coverage: Coverage plot und Data Table in Zieharmonika

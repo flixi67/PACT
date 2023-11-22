@@ -384,6 +384,9 @@ shinyServer(function(input, output, session) {
       })
     }
 
+    # Division vectors for share calculation
+
+
     act_agg_data <- data_all %>%
       pivot_longer(
         cols = !c(PKO, month_index, month, year),
