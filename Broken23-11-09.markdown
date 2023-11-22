@@ -68,6 +68,8 @@ Too clustered DONE
 In dynamic UI as extra field that gets added along the selection field
 --> possible to add groups of inputs at once?
 
+MAYBE LATER
+
 #### Rethink the usage of Engagement Categories plotting
 
 As long as no concrete research questions are being asked, the current setup seems satisfactory
@@ -78,7 +80,7 @@ As long as no concrete research questions are being asked, the current setup see
 
 - [x] adapt colors for icons in map to final bootstrap theme
 
-- [ ] publish to shinyapps
+- [x] publish to shinyapps
 
 - [x] add correct info on PACT 1 in "About"
 
