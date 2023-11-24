@@ -461,7 +461,7 @@ shinyUI(
           leafletOutput("map")
         ),
         absolutePanel(
-          top = 100,
+          top =75,
           left = 85,
           width = 320,
           height = "auto",
@@ -471,7 +471,7 @@ shinyUI(
             style = "margin-bottom:15px;",
             h6("Activity map"),
             p(
-              "This map helps to get an overview of the spatial and temporal dimension of UN peacekeeping activities. It shows where missions were employed in each year and which activities they implemented."
+              "This map helps to get an overview of the spatial and temporal dimension of UN peacekeeping activities. It shows where missions were employed in each year (show active missions; red shade) and which activities they implemented."
             ),
           ),
           hr(),
