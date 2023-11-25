@@ -45,6 +45,9 @@ vignettes/*.pdf
 # pkgdown site
 docs/
 
+# unpublished PACT data
+data/PACT_mission-month_full.csv
+
 # translation temp files
 po/*~
 
