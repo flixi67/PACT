@@ -2,13 +2,13 @@
 
 This interactive Shiny visualization presents the Extended Peacekeeping Activities Dataset (EPACT), which includes PACT 1.0 covering Africa and the novel PACT 2.0 covering Asia, the Americas, and Europe.
 
-PACT 1.0 was initiated by [Robert Blair](https://robblair.net/) and [Hannah Smidt](https://hannahsmidt.com/) in 2017 for Peacekeeping Operations within Africa and later extended to the other continents in the project ["The Civilian Dimension of Peacekeeping Operations and Human Rights Promotion"](https://pcr.uu.se/research/research-themes/human-rights/the-civilian-dimension-of-peacekeeping-operations-and-human-rights-promotion/) (Sabine Otto, Constantin Ruhe, Hannah Smidt, Lisa Hultman, Jair van der Lijn).
+PACT 1.0 was initiated by [Robert Blair](https://robblair.net/) and [Hannah Smidt](https://hannahsmidt.com/) in 2017 for UN Peacekeeping Operations within Africa and later extended to the other continents in the project ["The Civilian Dimension of Peacekeeping Operations and Human Rights Promotion"](https://pcr.uu.se/research/research-themes/human-rights/the-civilian-dimension-of-peacekeeping-operations-and-human-rights-promotion/) (Sabine Otto, Constantin Ruhe, Hannah Smidt, Lisa Hultman, Jair van der Lijn).
 
 #### Data
 
 The EPACT dataset covers 40 peacekeeping missions from 1989 to 2018. While both PACT 1.0 and PACT 2.0 include 37 activities, there are differences between them. **Peace Process** and **Ceasefire** were only recorded in PACT 1.0, whereas **National Reconciliation** was only collected in PACT 2.0. When analyzing these activities, keep in mind that the visualization interprets missing values as not implemented when aggregating these activities.
 
-Also, for the **Operations** variable containing patrols and the use of force, coding categories were adjusted, but the substantive meaning remained the same. Therefore, data could be merged in the data cleaning process and only appears as **Operations: Patrols/ Interventions** and **Operations: Use of Force** in the Shiny app.
+Additionally, PACT 2.0 simplified the complex coding of patrols and interventions into two variables: **Operations: Patrols/Interventions** and **Operations: Use of Force**. The Shiny app recodes data from PACT 1.0 to display **Operations: Patrols/Interventions** and **Operations: Use of Force** for PACT 1.0 data.
 
 Moreover, we coded for each activity its engagement category, allowing users to see not only what activities were implemented but also how they were implemented. The data records seven main engagement types: **Monitor**, **Advocate**, **Outreach**, **Material Support**, **Assist**, and **Implement**. An activity might have been implemented using multiple engagement types.
 
@@ -18,7 +18,7 @@ The dataset is based on reports from the Secretary General to the Security Counc
 
 The Shiny app offers two main functionalities:
 
-1. **Modular Plotting Tool:** This tool allows users to disaggregate and aggregate data based on UNPKO groups, individual UNPKOs, activities, and engagement categories. This flexibility enables in-depth analysis of specific activities and their implementation on the ground, as well as comparisons over time or by mission duration (months since mission start). This feature supports numerous applications, allowing users to explore specific aspects of the large dataset. The interface provides information about each mission, such as name, duration, continent (via icon), and deployment years, aiding in data aggregation. Users are encouraged to apply their own theories and categorizations of missions and activities. A [codebook](doku/PACT_codebook.pdf) is available in the repository for details on activities and engagement categories.
+1. **Modular Plotting Tool:** This tool allows users to disaggregate and aggregate data based on UNPKO groups, individual UNPKOs, activities, and engagement categories. This flexibility enables in-depth analysis of specific activities and their implementation on the ground, as well as comparisons over time or by mission duration (months since mission start). This feature supports numerous applications, allowing users to explore specific aspects of the large dataset. The interface provides information about each mission, such as name, duration, continent (via icon), and deployment years, aiding in data aggregation. Users are encouraged to apply their own theories and categorizations of missions and activities. A [codebook](https://dataverse.harvard.edu/file.xhtml?fileId=10230088&version=1.0) is available in the repository for details on activities and engagement categories.
 
 2. **Activity Map:** This map provides an overview of the implementation of activities and peacekeeping missions worldwide. Users can plot and animate up to three activities over time to observe temporal and spatial variations in peacekeeping activities.
 
@@ -34,8 +34,8 @@ We thank the Swedish Research Council for their generous project funding. We als
 
 #### Contact
 
-This website and the interactive visualisations were created by Felix Kube during an internship at the Department of Peace and Conflict Research. You can learn more about the script used to produce this application or contribute on [GitHub](https://github.com/flixi67/PACT). Since this is an evolving project, we would love to hear if you have any suggestion for improvement, or if you have encountered any issue while using the app.
+This website and the interactive visualizations were created by Felix Kube during an internship at the Department of Peace and Conflict Research. You can learn more about the script used to produce this application or contribute on [GitHub](https://github.com/flixi67/PACT). Since this is an evolving project, we would love to hear if you have any suggestion for improvement, or if you have encountered any issue while using the app.
 
 If you found a bug, don't kill it! It will ruin your karma. Rather report it to [me](mailto:felix.kube@uni.kn?subject=PACT%20Shiny%20app) or open up an issue on [GitHub](https://github.com/flixi67/PACT/issues).
 
-For any questions about the PACT dataset or the project, do not hesitate to contact Sabine Otto ([sabine.otto\@pcr.uu.se](mailto:sabine.otto@pcr.uu.se?subject=PACT)).
+For any questions about the PACT dataset or the project, do not hesitate to contact Sabine Otto ([sabine.otto\@pcr.uu.se](mailto:sabine.otto@pcr.uu.se?subject=PACT)), or after December 2024 at ([sabine.ottoroed@gmail.com](mailto:sabine.ottoroed@gmail.com?subject=PACT)).
