@@ -275,7 +275,7 @@ shinyServer(function(input, output, session) {
   ##### Groups of activities (peacekeeping activities) #####
   act_inserted_act <- c()
 
-  vals <- reactiveValues(count_act_acts = 3)
+  vals <- reactiveValues(count_act_acts = 0)
 
   observeEvent(input$act_insert_act, {
     vals$count_act_acts <- vals$count_act_acts + 1
@@ -807,42 +807,6 @@ shinyServer(function(input, output, session) {
     })
   })
 
-  #### Download Handlers #### Not implemented yet
-  output$act_download_plot1 <- downloadHandler(
-    filename = str_c(Sys.time(),' PACT-activity-plot.png'),
-    content = function(file){
-      png(file)
-      print(act_mission_plot())
-      dev.off()
-    }
-  )
-
-  output$act_download_plot2 <- downloadHandler(
-    filename = str_c(Sys.time(),' PACT-activity-plot.png'),
-    content = function(file){
-      png(file)
-      print(act_mission_plot())
-      dev.off()
-    }
-  )
-
-  output$ec_download_plot1 <- downloadHandler(
-    filename <- str_c(Sys.time(),' PACT-ec-plot.png'),
-    content = function(file){
-      png(file)
-      print(ec_agg_plot())
-      dev.off()
-    }
-  )
-
-  output$ec_download_plot2 <- downloadHandler(
-    filename <- str_c(Sys.time(),' PACT-ec-plot.png'),
-    content = function(file){
-      png(file)
-      print(ec_mission_plot())
-      dev.off()
-    }
-  )
 
   #### Data coverage ####
   output$mo_timerange_plot <- renderPlot({
