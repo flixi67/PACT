@@ -66,7 +66,7 @@ shinyUI(
                   "act_select_time",
                   label = NULL,
                   choices = list("Mission month" = "mission_month",
-                                 "Timerange" = "timerange"),
+                                 "Calendar month" = "timerange"),
                   inline = TRUE
                 ),
                 tippy_this(
@@ -266,7 +266,7 @@ shinyUI(
                   "ec_select_time",
                   label = NULL,
                   choices = list("Mission month" = "mission_month",
-                                 "Timerange" = "timerange"),
+                                 "Calendar month" = "timerange"),
                   inline = TRUE
                 ),
                 conditionalPanel(
