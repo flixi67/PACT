@@ -41,7 +41,9 @@ A key debate in peacekeeping research is whether security-related or peacebuildi
 
 To get an initial overview, we use the 'Aggregated Mode' to depict the implementation of peacebuilding and security-related tasks (<a href="https://onlinelibrary.wiley.com/doi/full/10.1111/ajps.12650" target="_blank">Blair et. al 2020</a>). For the timeline, we choose 'Mission Month', as we want to see the development over the life span of UNPKOS.
 
-(HIER KOMMT 1 PLOT HIN)
+<div style="width: 80vw; margin: auto">
+<img src="example1.png" alt="Graph showing the implementation of peacekeeping activities versus security activities for all missions", style="max-width: 100%; height: auto">
+</div>
 
 We can see that across all missions, security-related tasks (Activities 1) implementation starts slightly faster. After less than a year, the implemented tasks reach their maximum and slightly decline  until the four year mark. For the peacebuilding activities (Activities 2), the implementation is more dynamic. After a bit more than a year, most tasks are implemented with a comparably stronger decline until the 4 year mark compared to security tasks. It is important to note that at the point of creating the example, the tool only allowed to show absolute numbers and not shares, which is problematic when the activity groups have different amounts of activities aggregated. In this example, there are 18 peacebuilding tasks and only 10 security-related tasks. Therefore, the interpretation needs to be careful as only the progression of the line can be compared to each other. Also, some missions end earlier than others, limiting the comparability on the Y-axis with absolute values further.
 
