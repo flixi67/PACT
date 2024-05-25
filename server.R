@@ -777,42 +777,6 @@ shinyServer(function(input, output, session) {
     })
   })
 
-  #### Download Handlers #### Not implemented yet
-  output$act_download_plot1 <- downloadHandler(
-    filename = str_c(Sys.time(),' PACT-activity-plot.png'),
-    content = function(file){
-      png(file)
-      print(act_mission_plot())
-      dev.off()
-    }
-  )
-
-  output$act_download_plot2 <- downloadHandler(
-    filename = str_c(Sys.time(),' PACT-activity-plot.png'),
-    content = function(file){
-      png(file)
-      print(act_mission_plot())
-      dev.off()
-    }
-  )
-
-  output$ec_download_plot1 <- downloadHandler(
-    filename <- str_c(Sys.time(),' PACT-ec-plot.png'),
-    content = function(file){
-      png(file)
-      print(ec_agg_plot())
-      dev.off()
-    }
-  )
-
-  output$ec_download_plot2 <- downloadHandler(
-    filename <- str_c(Sys.time(),' PACT-ec-plot.png'),
-    content = function(file){
-      png(file)
-      print(ec_mission_plot())
-      dev.off()
-    }
-  )
 
   #### Data coverage ####
   output$mo_timerange_plot <- renderPlot({
@@ -843,56 +807,6 @@ shinyServer(function(input, output, session) {
     leaflet() %>%
       setView(lng = -40, lat = 20, zoom = 2) %>%
       addTiles()
-    #### Old Map ####
-      # when(
-      #   input$map_show_active == TRUE
-      #   ~ addPolygons(
-      #     .,
-      #     data = data_map %>% filter(year == input$map_select_time) %>% select(PKO, year, Mission_Country, geometry) %>% unique() %>% .$geometry,
-      #     label = data_map %>% filter(year == input$map_select_time) %>% select(PKO, year) %>% unique() %>% .$PKO,
-      #     color = "red",
-      #     opacity = 0.1,
-      #     stroke = FALSE
-      #   ),
-      #   ~ .
-      # ) %>%
-      # when(
-      #   !is.null(input$map_activity1)
-      #   ~ addMarkers(
-      #     .,
-      #     data = data_map %>% filter(
-      #       !!sym(input$map_activity1) == TRUE,
-      #       year == input$map_select_time
-      #     ) %>% .$points,
-      #     icon = map_icons$bluehand
-      #   ),
-      #   ~ .
-      # ) %>%
-      # when(
-      #   !is.null(input$map_activity2)
-      #   ~ addMarkers(
-      #     .,
-      #     data = data_map %>% filter(
-      #       !!sym(input$map_activity2) == TRUE,
-      #       year == input$map_select_time
-      #     ) %>% .$points,
-      #     icon = map_icons$redhelp
-      #   ),
-      #   ~ .
-      # ) %>%
-      # when(
-      #   !is.null(input$map_activity3)
-      #   ~ addMarkers(
-      #     .,
-      #     data = data_map %>% filter(
-      #       !!sym(input$map_activity3) == TRUE,
-      #       year == input$map_select_time
-      #     ) %>% .$points,
-      #     icon = map_icons$greenheli
-      #   ),
-      #   ~ .
-      # )
-
   })
 
   observe({

@@ -19,7 +19,7 @@ shinyUI(
     tabPanelBody(
       "Landing Page",
       style = "width: 80%; margin: auto",
-      h4("Peacekeeping Activities Dataset (PACT): Interactive visualization"),
+      h4("Peacekeeping Activities Dataset (PACT): Interactive Visualization"),
       p("Welcome to the interactive plotting tool for the peacekeeping activity dataset."),
       div(
         p("Available tools:"),
@@ -453,26 +453,23 @@ shinyUI(
     #### Missions: Activity map ####
     tabPanel(
       "Activity map",
-      div(
-        position = "relative",
-        div(
-          class = "outer",
-          tags$style(type = "text/css", "#map {height: calc(100vh - 110px) !important;}"),
-          leafletOutput("map")
-        ),
-        absolutePanel(
-          top = 100,
-          left = 85,
-          width = 320,
-          height = "auto",
-          fixed = FALSE,
-          style = "padding:15px; background:rgba(232, 232, 232, 0.8); bottom:25px",
+      sidebarLayout(
+        ##### Sidebar #####
+        sidebarPanel(
+          tags$style(
+            HTML(
+              ".tabbable > .nav > li > a {background-color: lightgrey; width: 100%; text-align: center}"
+            )
+          ),
+          tags$style(HTML(".tabbable > .nav > li {width: 50%}")),
           div(
-            style = "margin-bottom:15px;",
             h6("Activity map"),
             p(
               "This map helps to get an overview of the spatial and temporal dimension of UN peacekeeping activities. It shows where missions were employed in each year and which activities they implemented."
             ),
+            p(
+              "You can choose up to three activities, which will be plotted into the map by the symbols next to them."
+            )
           ),
           hr(),
           div(
@@ -487,30 +484,24 @@ shinyUI(
               sep = "",
               width = "100%",
               animate = animationOptions(interval = 1000, loop = TRUE)
-            ),
-            tags$style(
-              type = "text/css",
-              HTML(".irs-single {color:black; background:transparent}")
-            ),
-            tags$style(type = "text/css", HTML(".irs-grid-text {color:#333333}"))
+            )
           ),
           tippy_this(
             "map_div_time",
-            "Select year to show in the map. Play button on the bottom right animates the map over time"
+            "Select year to show in the map. The play button on the bottom right animates the map over time."
           ),
           div(
             id = "map_div_act",
             checkboxInput("map_show_active", "Show active missions"),
             div(
-              style = "width: 90%; float: left",
               selectizeInput(
                 "map_activity1",
                 label = NULL,
                 choices = activity_list,
                 multiple = TRUE,
-                options = list(placeholder = "Select activity",
-                               maxItems = 1)
-              )
+                options = list(placeholder = "Select activity", maxItems = 1)
+              ),
+              style = "width: 80%; float: left"
             ),
             div(
               style = "width: 10%; float: left; padding: 5px",
@@ -518,15 +509,14 @@ shinyUI(
               tags$style(".fa-hands-helping {color: blue}")
             ),
             div(
-              style = "width: 90%; float: left",
               selectizeInput(
-                "map_activity2",
+                "map_activity1",
                 label = NULL,
                 choices = activity_list,
                 multiple = TRUE,
-                options = list(placeholder = "Select activity",
-                               maxItems = 1)
+                options = list(placeholder = "Select activity", maxItems = 1)
               ),
+              style = "width: 80%; float: left"
             ),
             div(
               style = "width: 10%; float: left; padding: 5px",
@@ -534,25 +524,35 @@ shinyUI(
               tags$style(".fa-people-carry {color: red}")
             ),
             div(
-              style = "width: 90%; float: left",
               selectizeInput(
                 "map_activity3",
                 label = NULL,
                 choices = activity_list,
                 multiple = TRUE,
-                options = list(placeholder = "Select activity",
-                               maxItems = 1)
-              )
+                options = list(placeholder = "Select activity", maxItems = 1)
+              ),
+              style = "width: 80%; float: left"
             ),
             div(
               style = "width: 10%; float: left; padding: 5px",
               icon("helicopter"),
               tags$style(".fa-helicopter {color: green}")
-            )
+            ),
           ),
-          tippy_this("map_div_act", "Select activities to be plotted on the map"),
+          br(), # these are only here because sidebarPanel ignores floating items and I did not find an option to put elements inline otherwise... please fix
+          br(),
+          br(),
+          br(),
+          br(),
+          br(),
+          br(),
+          tippy_this("map_div_act", "Select activities to be plotted on the map")
+        ),
+        ##### Main panel #####
+        mainPanel(
           div(
-            style = "color:#888888; float: left",
+            tags$style(type = "text/css", "#map {height: calc(100vh - 110px) !important;}"),
+            leafletOutput("map")
           )
         )
       ),
@@ -562,7 +562,7 @@ shinyUI(
     tabPanel(
       "Data coverage",
       div(
-        style = "width: 80%; margin: auto",
+        style = "width: 80%; height: auto; margin: auto",
         plotOutput("mo_timerange_plot"),
         br(),
         dataTableOutput("coverage")
