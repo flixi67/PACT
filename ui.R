@@ -9,6 +9,7 @@ library(bslib)
 library(htmltools)
 library(tippy)
 library(ggforce)
+library(markdown)
 
 shinyUI(
   navbarPage(
