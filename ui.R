@@ -510,7 +510,7 @@ shinyUI(
             ),
             div(
               selectizeInput(
-                "map_activity1",
+                "map_activity2",
                 label = NULL,
                 choices = activity_list,
                 multiple = TRUE,
