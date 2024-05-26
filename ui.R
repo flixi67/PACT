@@ -22,19 +22,19 @@ shinyUI(
       h4("Peacekeeping Activities Dataset (PACT): Interactive visualization"),
       p("Welcome to the interactive plotting tool for the peacekeeping activity dataset."),
       div(
-        p("Available tools:"),
+        h5("Available tools:"),
         tags$ul(
           tags$li(
-            "Peacekeeping Activities - Aggregated: Create mission groups, and compare them over time. There are two modes available: per mission month allows to compare implemented activies over the lifespan of missions, whereas aggregation by calendar date can give insights into developments over generations of peacekeeping."
+            strong("Peacekeeping Activities - Aggregated:"),  "Create mission groups, and compare them over time."
           ),
           tags$li(
-            "Peacekeeping Activities - Mission: Deep dive into certain activities across missions. Possibility to add multiple activities together, whereby the share of implemented activities is plotted."
+            strong("Peacekeeping Activities - Mission:"), "Deep dive into certain activities across missions."
           ),
           tags$li(
-            "Engagement Categories - Aggregated: Create mission groups, and compare types of engagement over time."
+            strong("Engagement Categories - Aggregated:"), "Create mission groups, and compare types of engagement over time."
           ),
           tags$li(
-            "Engagement Categories - Activity: How are different activities implemented across missions? Select missions to compare, select activities to aggregate, and go!"
+            strong("Engagement Categories - Activity:"), "How are different activities implemented across missions? Select missions to compare, select activities to aggregate, and go!"
           )
         )
       )
@@ -66,7 +66,7 @@ shinyUI(
                   "act_select_time",
                   label = NULL,
                   choices = list("Mission month" = "mission_month",
-                                 "Timerange" = "timerange"),
+                                 "Calendar month" = "timerange"),
                   inline = TRUE
                 ),
                 tippy_this(
@@ -266,7 +266,7 @@ shinyUI(
                   "ec_select_time",
                   label = NULL,
                   choices = list("Mission month" = "mission_month",
-                                 "Timerange" = "timerange"),
+                                 "Calendar month" = "timerange"),
                   inline = TRUE
                 ),
                 conditionalPanel(
@@ -562,25 +562,33 @@ shinyUI(
     tabPanel(
       "Data coverage",
       div(
-        style = "width: 80%; margin: auto",
+        style = "width: 80%",
         plotOutput("mo_timerange_plot"),
         br(),
         dataTableOutput("coverage")
       ),
       icon = icon("table")
     ),
-    #### Guide #### outdated example
+    #### Guide ####
     tabPanel(
       "Guide",
+      div(style = "width: 100%",
+          img(src = "banner_guide.jpg", style = "width: 100%; margin-top: 0px; margin-left: 0px; margin-right: 0px; margin-bottom: auto")
+      ),
       div(style = "width: 80%; margin: auto",
-          includeMarkdown("manual.md")),
+          includeMarkdown("guide.md")
+      ),
       icon = icon("lightbulb")
     ),
     #### About page/ Impressum ####
     tabPanel(
       "About",
+      div(style = "width: 100%",
+          img(src = "banner_about.jpg", style = "width: 100%")
+      ),
       div(style = "width: 80%; margin: auto",
-          includeMarkdown("about.md")),
+          includeMarkdown("about.md")
+      ),
       icon = icon("fingerprint")
     )
   )
