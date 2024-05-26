@@ -837,56 +837,6 @@ shinyServer(function(input, output, session) {
     leaflet() %>%
       setView(lng = -40, lat = 20, zoom = 2) %>%
       addTiles()
-    #### Old Map ####
-      # when(
-      #   input$map_show_active == TRUE
-      #   ~ addPolygons(
-      #     .,
-      #     data = data_map %>% filter(year == input$map_select_time) %>% select(PKO, year, Mission_Country, geometry) %>% unique() %>% .$geometry,
-      #     label = data_map %>% filter(year == input$map_select_time) %>% select(PKO, year) %>% unique() %>% .$PKO,
-      #     color = "red",
-      #     opacity = 0.1,
-      #     stroke = FALSE
-      #   ),
-      #   ~ .
-      # ) %>%
-      # when(
-      #   !is.null(input$map_activity1)
-      #   ~ addMarkers(
-      #     .,
-      #     data = data_map %>% filter(
-      #       !!sym(input$map_activity1) == TRUE,
-      #       year == input$map_select_time
-      #     ) %>% .$points,
-      #     icon = map_icons$bluehand
-      #   ),
-      #   ~ .
-      # ) %>%
-      # when(
-      #   !is.null(input$map_activity2)
-      #   ~ addMarkers(
-      #     .,
-      #     data = data_map %>% filter(
-      #       !!sym(input$map_activity2) == TRUE,
-      #       year == input$map_select_time
-      #     ) %>% .$points,
-      #     icon = map_icons$redhelp
-      #   ),
-      #   ~ .
-      # ) %>%
-      # when(
-      #   !is.null(input$map_activity3)
-      #   ~ addMarkers(
-      #     .,
-      #     data = data_map %>% filter(
-      #       !!sym(input$map_activity3) == TRUE,
-      #       year == input$map_select_time
-      #     ) %>% .$points,
-      #     icon = map_icons$greenheli
-      #   ),
-      #   ~ .
-      # )
-
   })
 
   observe({
