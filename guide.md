@@ -22,7 +22,7 @@ For activities and engagement categories, the tool offers plot creation in two m
 
 **Activities:** Create groups of activities. The activities in each group will be added up and displayed as a line in the plot.
 
-Note: In the current version of the tool, the X-axis in the "Aggregated" tab shows absolute numbers and not shares. Since the number and duration of missions vary, the graphs require careful interpretation, as a direct comparison of lines is not feasible.
+<span style="color:red">Note: In the current version of the tool, the X-axis in the **Aggregated Mode** shows absolute numbers and not shares. Since the number and duration of missions may vary in your custom analysis, the graphs require careful interpretation, as a direct comparison of lines is not feasible.</span>
 
 ##### Mission Mode
 
