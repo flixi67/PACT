@@ -22,7 +22,7 @@ shinyUI(
       h4("Peacekeeping Activities Dataset (PACT): Interactive Visualization"),
       p("Welcome to the interactive plotting tool for the peacekeeping activity dataset."),
       div(
-        h5("Available tools:"),
+        h5("Available tools"),
         tags$ul(
           tags$li(
             strong("Peacekeeping Activities - Aggregated:"),  "Create mission groups, and compare them over time."
@@ -36,6 +36,19 @@ shinyUI(
           tags$li(
             strong("Engagement Categories - Activity:"), "How are different activities implemented across missions? Select missions to compare, select activities to aggregate, and go!"
           )
+        ),
+        h5("Information"),
+        p(
+          "Since the data underlying the tool is suitable for diverse use cases, we opted to code a plotting tool that allows the user a maximum of flexibility. You can create your own mission and activity groups. The benefit is that this allows for manyfold analysis and a very deep dive into the yet unreleased data. The tradeoff is that it requires a bit of preparation and knowledge of the data to use this tool to its full potential."
+        ),
+        p(
+          "It is therefore recommended to first read the Guide and About pages and check out the project and data description before jumping into the plotting tool."
+        ),
+        p(
+          "If you have any questions regarding this tool, the project or the data, you can find contact information in the About page."
+        ),
+        p(
+          "Have fun and some insights!"
         )
       )
     ),
