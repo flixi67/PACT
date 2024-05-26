@@ -1,6 +1,6 @@
 Package: PACT
 Title: Viszualize PACT data with modular activity plots and maps
-Version: 0.0.0.9000
+Version: 1.0
 Authors@R: 
     person("Felix", "Kube", , "felix.kube@uni.kn", role = c("aut", "cre"),
            comment = c(github = "github.com/flixi67"))
