@@ -220,21 +220,11 @@ shinyServer(function(input, output, session) {
   ##### Groups of missions (peacekeeping activities) #####
   act_inserted_mission <- c()
 
-  vals <- reactiveValues(count_act_missions = 0)
-
   observeEvent(input$act_insert_mission, {
-    vals$count_act_missions <- vals$count_act_missions + 1
-  })
-
-  observeEvent(input$act_remove_mission, {
-    vals$count_act_missions <- vals$count_act_missions - 1
-  })
-
-  observeEvent(input$act_insert_mission, {
-    id <- paste0('act_mission', vals$count_act_missions)
+    btn <- input$act_insert_mission
+    id <- paste0('act_mission', btn)
     insertUI(selector = '#act_placeholder_mission',
              ui = tags$div(
-               p(paste("Mission group", vals$count_act_missions)),
                selectizeInput(
                  id,
                  label = NULL,
@@ -275,21 +265,11 @@ shinyServer(function(input, output, session) {
   ##### Groups of activities (peacekeeping activities) #####
   act_inserted_act <- c()
 
-  vals <- reactiveValues(count_act_acts = 0)
-
   observeEvent(input$act_insert_act, {
-    vals$count_act_acts <- vals$count_act_acts + 1
-  })
-
-  observeEvent(input$act_remove_act, {
-    vals$count_act_acts <- vals$count_act_acts - 1
-  })
-
-  observeEvent(input$act_insert_act, {
-    id <- paste0('act_act', vals$count_act_acts)
+    btn <- input$act_insert_act
+    id <- paste0('act_act', btn)
     insertUI(selector = '#act_placeholder_act',
              ui = tags$div(
-               p(paste("Activities", vals$count_act_acts)),
                selectizeInput(
                  id,
                  label = NULL,
@@ -310,21 +290,11 @@ shinyServer(function(input, output, session) {
   ##### Groups of missions (engagement categories) #####
   ec_inserted_mission <- c()
 
-  vals <- reactiveValues(count_ec_missions = 0)
-
   observeEvent(input$ec_insert_mission, {
-    vals$count_ec_missions <- vals$count_ec_missions + 1
-  })
-
-  observeEvent(input$ec_remove_mission, {
-    vals$count_ec_missions <- vals$count_ec_missions - 1
-  })
-
-  observeEvent(input$ec_insert_mission, {
-    id <- paste0('ec_mission', vals$count_ec_missions)
+    btn <- input$ec_insert_mission
+    id <- paste0('ec_mission', btn)
     insertUI(selector = '#ec_placeholder_mission',
              ui = tags$div(
-               p(paste("Mission group", vals$count_ec_missions)),
                selectizeInput(
                  id,
                  label = NULL,
