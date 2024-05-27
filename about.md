@@ -2,15 +2,15 @@
 
 This interactive Shiny visualization presents the Extended Peacekeeping Activities Dataset (EPACT), which includes PACT 1.0 covering Africa and the novel PACT 2.0 covering Asia, the Americas, and Europe.
 
-PACT 1.0 was initiated by [Robert Blair](https://robblair.net/) and [Hannah Smidt](https://hannahsmidt.com/) in 2017 for UN Peacekeeping Operations within Africa and later extended to the other continents in the project ["The Civilian Dimension of Peacekeeping Operations and Human Rights Promotion"](https://pcr.uu.se/research/research-themes/human-rights/the-civilian-dimension-of-peacekeeping-operations-and-human-rights-promotion/) (Sabine Otto, Constantin Ruhe, Hannah Smidt, Lisa Hultman, Jair van der Lijn).
+PACT 1.0 was initiated by [Robert Blair](https://robblair.net/) and [Hannah Smidt](https://hannahsmidt.com/) in 2017 for UN Peacekeeping Operations within Africa and later extended to the other continents in the project ["The Civilian Dimension of Peacekeeping Operations and Human Rights Promotion"](https://pcr.uu.se/research/research-themes/human-rights/the-civilian-dimension-of-peacekeeping-operations-and-human-rights-promotion/) by Sabine Otto.
 
 #### Data
 
-The EPACT dataset covers 40 peacekeeping missions from 1989 to 2018. While both PACT 1.0 and PACT 2.0 include 37 activities, there are differences between them. **Peace Process** and **Ceasefire** were only recorded in PACT 1.0, whereas **National Reconciliation** was only collected in PACT 2.0. When analyzing these activities, keep in mind that the visualization interprets missing values as not implemented when aggregating these activities.
+The EPACT dataset covers 40 peacekeeping missions from 1989 to 2018. While both PACT 1.0 and PACT 2.0 include 37 activities, there are differences between them. **Peace Process** and **Ceasefire** were only recorded in PACT 1.0, whereas **National Reconciliation** was only collected in PACT 2.0. The visualization still plots these activities for all missions. Keep in mind that the missing values from these three activities are plotted as not implemented.
 
-Additionally, PACT 2.0 simplified the complex coding of patrols and interventions into two variables: **Operations: Patrols/Interventions** and **Operations: Use of Force**. The Shiny app recodes data from PACT 1.0 to display **Operations: Patrols/Interventions** and **Operations: Use of Force** for PACT 1.0 data.
+Additionally, PACT 2.0 simplified the complex coding of patrols and interventions into two variables: **Operations: Patrols/Interventions** and **Operations: Use of Force**. The Shiny app recodes data from PACT 1.0 to display **Operations: Patrols/Interventions** and **Operations: Use of Force** for PACT 1.0 data as well.
 
-Moreover, we coded for each activity its engagement category, allowing users to see not only what activities were implemented but also how they were implemented. The data records seven main engagement types: **Monitor**, **Advocate**, **Outreach**, **Material Support**, **Assist**, and **Implement**. An activity might have been implemented using multiple engagement types.
+Moreover, we coded for each activity its engagement category, allowing users to see not only what activities were implemented but also how they were implemented. The data records seven main engagement types: **Monitor**, **Meeting** **Advocate**, **Outreach**, **Material Support**, **Assist**, and **Implement**. An activity might have been implemented using multiple engagement types.
 
 The dataset is based on reports from the Secretary General to the Security Council. Over 850 reports, including their annexes and addenda, were coded to create the dataset. For a detailed discussion on the data source and its validity, refer to [Blair et al. (2021, pp. 7-8)](https://onlinelibrary.wiley.com/doi/full/10.1111/ajps.12650).
 
@@ -22,7 +22,7 @@ The Shiny app offers two main functionalities:
 
 2. **Activity Map:** This map provides an overview of the implementation of activities and peacekeeping missions worldwide. Users can plot and animate up to three activities over time to observe temporal and spatial variations in peacekeeping activities.
 
-Additionally, the app includes an overview page of the data sources, displaying coverage, reporting time frames, and links to official UN documents from which the data was coded and later aggregated into a mission-month format.
+Additionally, the app includes an overview page of the data sources displaying coverage, reporting time frames, and links to official UN documents from which the data was coded and later aggregated into a mission-month format.
 
 #### Funding
 
