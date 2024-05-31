@@ -14,14 +14,14 @@ library(markdown)
 shinyUI(
   navbarPage(
     theme = bslib::bs_theme(version = 4, bootswatch = "cosmo"),
-    title = "PACT Interactive Visualization",
+    title = "EPACT Interactive Visualization",
     id = "main_menu",
     #### Landing Page #### Could be removed later, when this issue is fixed https://github.com/rstudio/shiny/issues/3604
     tabPanelBody(
       "Landing Page",
       style = "width: 80%; margin: auto",
-      h4("Peacekeeping Activities Dataset (PACT): Interactive Visualization"),
-      p("Welcome to the interactive plotting tool for the peacekeeping activity dataset."),
+      h4("Extended Peacekeeping Activities Dataset (EPACT): Interactive Visualization"),
+      p("Welcome to the interactive plotting tool for the Extended Peacekeeping Activities Dataset (EPACT). The EPACT tool includes PACT 1.0, which covers Africa (data collected by Hannah Smidt and Rob Blair, not yet fully released), and the novel PACT 2.0, covering Asia, the Americas, and Europe (collected by Sabine Otto). EPACT provides detailed information on activities implemented by United Nations Peacekeeping Operations (UNPKOs) and how these activities were carried out, categorized by engagement types."),
       div(
         h5("Available tools"),
         tags$ul(
@@ -29,13 +29,13 @@ shinyUI(
             strong("Peacekeeping Activities - Aggregated:"),  "Create mission groups, and compare them over time."
           ),
           tags$li(
-            strong("Peacekeeping Activities - Mission:"), "Deep dive into certain activities across missions."
+            strong("Peacekeeping Activities - Mission:"), "Deep dive into certain activities across UNPKOs"
           ),
           tags$li(
-            strong("Engagement Categories - Aggregated:"), "Create mission groups, and compare types of engagement over time."
+            strong("Engagement Categories - Aggregated:"), "Create groups of UNPKOs and compare types of engagement over time."
           ),
           tags$li(
-            strong("Engagement Categories - Activity:"), "How are different activities implemented across missions? Select missions to compare, select activities to aggregate, and go!"
+            strong("Engagement Categories - Mission:"), "How are different activities implemented across missions? Select missions to compare, select activities to aggregate, and go!"
           )
         ),
         h5("Information"),
@@ -46,10 +46,10 @@ shinyUI(
           "It is therefore recommended to first read the Guide and About pages and check out the project and data description before jumping into the plotting tool."
         ),
         p(
-          "If you have any questions regarding this tool, the project or the data, you can find contact information in the About page."
+          "If you have any questions about this tool, the project or the data, please refer to the contact information provided in the About page."
         ),
         p(
-          "Have fun and some insights!"
+          "Enjoy and gain some valuable insights! We are happy to hear about your experience using this webtool."
         )
       )
     ),
@@ -576,10 +576,10 @@ shinyUI(
     tabPanel(
       "Data coverage",
       div(
-        style = "width: 80%; height: auto; margin: auto",
-        plotOutput("mo_timerange_plot"),
-        br(),
-        dataTableOutput("coverage")
+        style = "width: 80%; height: 100%; margin: auto",
+        plotOutput("mo_timerange_plot")
+        # br(),
+        # dataTableOutput("coverage")
       ),
       icon = icon("table")
     ),

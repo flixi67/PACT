@@ -788,14 +788,14 @@ shinyServer(function(input, output, session) {
       ylab("")
   })
 
-  output$coverage <- renderDataTable({
-    reportdata %>%
-      select(PKO = report_namePKO, reportNumber, reportDate, reportPeriod_start, reportPeriod_end, numberParagraphs) %>%
-      unique() %>%
-      mutate(reportNumber = paste0("<a href=\"https://undocs.org/en/", reportNumber, "\">", reportNumber, "</a>"),
-             PKO = str_extract(PKO, "[A-Z]*"))
-  },
-  escape = FALSE)
+  # output$coverage <- renderDataTable({
+  #   reportdata %>%
+  #     select(PKO = report_namePKO, reportNumber, reportDate, reportPeriod_start, reportPeriod_end, numberParagraphs) %>%
+  #     unique() %>%
+  #     mutate(reportNumber = paste0("<a href=\"https://undocs.org/en/", reportNumber, "\">", reportNumber, "</a>"),
+  #            PKO = str_extract(PKO, "[A-Z]*"))
+  # },
+  # escape = FALSE)
 
   #### Activity Map ####
   data_map_reactive <- reactive({
