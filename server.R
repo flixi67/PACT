@@ -99,8 +99,10 @@ activity_list <- as.list(
         str_remove("_All") %>%
         str_replace("_", ":") %>%
         str_replace_all("(?=[A-Z])", " ") %>%
-        str_trim()
+        str_trim() %>%
+        # hier PACT1 und PACT2 categories amenden.
     )
+
 )
 
 ec_list <- list(

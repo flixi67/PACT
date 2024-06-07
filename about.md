@@ -10,7 +10,7 @@ The EPACT dataset covers 40 peacekeeping missions from 1989 to 2018. While both 
 
 Additionally, PACT 2.0 simplified the complex coding of patrols and interventions into two variables: **Operations: Patrols/Interventions** and **Operations: Use of Force**. The Shiny app recodes data from PACT 1.0 to display **Operations: Patrols/Interventions** and **Operations: Use of Force** for PACT 1.0 data as well.
 
-Moreover, we coded for each activity its engagement category, allowing users to see not only what activities were implemented but also how they were implemented. The data records seven main engagement types: **Monitor**, **Meeting** **Advocate**, **Outreach**, **Material Support**, **Assist**, and **Implement**. An activity might have been implemented using multiple engagement types.
+Moreover, we coded for each activity its engagement category, allowing users to see not only what activities were implemented but also how they were implemented. The data records seven main engagement types: **Monitor**, **Meeting**, **Advocate**, **Outreach**, **Material Support**, **Assist**, and **Implement**. An activity might have been implemented using multiple engagement types.
 
 The dataset is based on reports from the Secretary General to the Security Council. Over 850 reports, including their annexes and addenda, were coded to create the dataset. For a detailed discussion on the data source and its validity, refer to [Blair et al. (2021, pp. 7-8)](https://onlinelibrary.wiley.com/doi/full/10.1111/ajps.12650).
 
