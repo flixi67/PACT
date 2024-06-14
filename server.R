@@ -99,11 +99,15 @@ activity_list <- as.list(
         str_remove("_All") %>%
         str_replace("_", ":") %>%
         str_replace_all("(?=[A-Z])", " ") %>%
-        str_trim() %>%
-        # hier PACT1 und PACT2 categories amenden.
+        str_trim()
     )
-
 )
+
+activity_list$Ceasefire[[1]] <- set_names("Ceasefire (only PACT 1.0)")
+
+# Peaceprocess only PACT 1.0
+
+# National Reconciliation only PACT 2.0
 
 ec_list <- list(
   "Monitor",
