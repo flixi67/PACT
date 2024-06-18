@@ -103,7 +103,10 @@ activity_list <- as.list(
     )
 )
 
-activity_list$Ceasefire[[1]] <- set_names("Ceasefire (only PACT 1.0)")
+names(activity_list)[35] <- "Ceasefire (only PACT 1.0)"
+names(activity_list)[36] <- "Peace Process (only PACT 1.0)"
+names(activity_list)[39] <- "National Reconciliation (only PACT 2.0)"
+
 
 # Peaceprocess only PACT 1.0
 
@@ -791,7 +794,8 @@ shinyServer(function(input, output, session) {
                      size = 2) +
       scale_x_continuous(n.breaks = 10) +
       facet_col(~ Continent, scales = "free_y", space = "free") +
-      ylab("")
+      ylab("") +
+      theme(text = element_text(size=14))
   })
 
   # output$coverage <- renderDataTable({

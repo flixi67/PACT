@@ -577,7 +577,7 @@ shinyUI(
       "Data coverage",
       div(
         style = "width: 80%; height: 100%; margin: auto",
-        plotOutput("mo_timerange_plot")
+        plotOutput("mo_timerange_plot", height = "150%")
         # br(),
         # dataTableOutput("coverage")
       ),
