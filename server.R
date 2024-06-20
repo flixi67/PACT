@@ -794,8 +794,7 @@ shinyServer(function(input, output, session) {
                      size = 2) +
       scale_x_continuous(n.breaks = 10) +
       facet_col(~ Continent, scales = "free_y", space = "free") +
-      ylab("") +
-      theme(text = element_text(size=14))
+      ylab("")
   })
 
   # output$coverage <- renderDataTable({

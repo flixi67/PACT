@@ -1,8 +1,6 @@
 # About
 
-This interactive Shiny visualization presents the Extended Peacekeeping Activities Dataset (EPACT), which includes PACT 1.0 covering Africa and the novel PACT 2.0 covering Asia, the Americas, and Europe.
-
-PACT 1.0 was initiated by [Robert Blair](https://robblair.net/) and [Hannah Smidt](https://hannahsmidt.com/) in 2017 for UN Peacekeeping Operations within Africa and later extended to the other continents in the project ["The Civilian Dimension of Peacekeeping Operations and Human Rights Promotion"](https://pcr.uu.se/research/research-themes/human-rights/the-civilian-dimension-of-peacekeeping-operations-and-human-rights-promotion/) by Sabine Otto.
+This interactive Shiny visualization presents the Extended Peacekeeping Activities Dataset (EPACT), which includes PACT 1.0, which covers Africa (data collected by [Hannah Smidt](https://hannahsmidt.com/) and [Rob Blair](https://robblair.net/), not yet fully released), and the novel PACT 2.0, covering Asia, the Americas, and Europe (collected by Sabine Otto). EPACT provides detailed information on activities implemented by United Nations Peacekeeping Operations (UNPKOs) and how these activities were carried out, categorized by engagement types.
 
 #### Data
 
@@ -10,9 +8,9 @@ The EPACT dataset covers 40 peacekeeping missions from 1989 to 2018. While both 
 
 Additionally, PACT 2.0 simplified the complex coding of patrols and interventions into two variables: **Operations: Patrols/Interventions** and **Operations: Use of Force**. The Shiny app recodes data from PACT 1.0 to display **Operations: Patrols/Interventions** and **Operations: Use of Force** for PACT 1.0 data as well.
 
-Moreover, we coded for each activity its engagement category, allowing users to see not only what activities were implemented but also how they were implemented. The data records seven main engagement types: **Monitor**, **Meeting**, **Advocate**, **Outreach**, **Material Support**, **Assist**, and **Implement**. An activity might have been implemented using multiple engagement types.
+Moreover, EPACT contains for each activity information on its engagement category, allowing users to see not only what activities were implemented but also how they were implemented. The data records seven main engagement types: **Monitor**, **Meeting**, **Advocate**, **Outreach**, **Material Support**, **Assist**, and **Implement**. An activity might have been implemented using multiple engagement types.
 
-The dataset is based on reports from the Secretary General to the Security Council. Over 850 reports, including their annexes and addenda, were coded to create the dataset. For a detailed discussion on the data source and its validity, refer to [Blair et al. (2021, pp. 7-8)](https://onlinelibrary.wiley.com/doi/full/10.1111/ajps.12650).
+The dataset draws on over 850 reports (including their annexes and addenda) United Nations Secretary-General (UNSG) progress reports, which describe what UNPKOs do in typical reporting intervals of three to six months. For a detailed discussion on the data source and its validity, refer to [Blair et al. (2021, pp. 7-8)](https://onlinelibrary.wiley.com/doi/full/10.1111/ajps.12650).
 
 #### Visualization
 
